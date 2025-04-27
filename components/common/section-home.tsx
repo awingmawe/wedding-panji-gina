@@ -9,12 +9,12 @@ export default function SectionHome() {
   // Variants for the text scrolling
   const textScrollVariants = {
     animate: {
-      x: ['-100%', '115%'],
+      x: ['-100%', '100%'],
       transition: {
         x: {
           repeat: Infinity,
           repeatType: 'loop',
-          duration: 8,
+          duration: 6,
           ease: 'linear',
         },
       },
@@ -42,50 +42,16 @@ export default function SectionHome() {
               transition={{
                 opacity: {
                   repeat: Infinity,
-                  duration: 0.8,
+                  duration: 1.5,
                   ease: 'easeInOut',
                 },
               }}
             >
-              The Wedding Of
+              The Wedding Of Panji Gina
             </motion.p>
           </div>
-          <div className="flex-1 overflow-hidden rounded-sm bg-[#322a23] px-3.5 py-2.5">
-            <motion.p
-              className="text-center font-[minecraft] text-xs text-[#8a826c] uppercase"
-              variants={textScrollVariants}
-              animate="animate"
-              // Apply blinking effect to the text
-              whileInView={{ opacity: [1, 0, 1] }}
-              transition={{
-                opacity: {
-                  repeat: Infinity,
-                  duration: 0.8,
-                  ease: 'easeInOut',
-                },
-              }}
-            >
-              Panji
-            </motion.p>
-          </div>
-          <div className="flex-1 overflow-hidden rounded-sm bg-[#322a23] px-3.5 py-2.5">
-            <motion.p
-              className="text-center font-[minecraft] text-xs text-[#8a826c] uppercase"
-              variants={textScrollVariants}
-              animate="animate"
-              // Apply blinking effect to the text
-              whileInView={{ opacity: [1, 0, 1] }}
-              transition={{
-                opacity: {
-                  repeat: Infinity,
-                  duration: 0.8,
-                  ease: 'easeInOut',
-                },
-              }}
-            >
-              Gina
-            </motion.p>
-          </div>
+          <div className="absolute left-[33%] h-1/2 w-2.5 bg-[#701f24]" />
+          <div className="absolute right-[33%] h-1/2 w-2.5 bg-[#701f24]" />
         </div>
         <div className="rounded-xs bg-[#701f24] px-3 py-2">
           <div className="relative">
