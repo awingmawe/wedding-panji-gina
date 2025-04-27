@@ -1,4 +1,4 @@
-import LoadingScreen from '@/components/common/loading-screen'
+import SectionHome from '@/components/common/section-home'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { FC } from 'react'
@@ -24,8 +24,9 @@ const Page: FC<PageProps> = async ({ params }) => {
   const decodedNama = decodeURIComponent(nama)
 
   return (
-    <main className="min-h-screen">
-      <LoadingScreen />
+    <main className="container min-h-screen ">
+      {/* <LoadingScreen /> */}
+      <SectionHome />
     </main>
   )
 }
