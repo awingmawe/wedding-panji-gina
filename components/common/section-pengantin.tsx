@@ -16,11 +16,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import React from 'react'
 
-interface SectionPengantinProps {
-  // Add your props typing here
-}
-
-const SectionPengantin: React.FC<SectionPengantinProps> = (props) => {
+const SectionPengantin: React.FC = () => {
   return (
     <section className="relative w-full overflow-hidden" id="section-penganti">
       {/* Container that establishes size */}
@@ -34,7 +30,7 @@ const SectionPengantin: React.FC<SectionPengantinProps> = (props) => {
             height={0}
             sizes="100vw"
             className="h-auto w-full"
-            priority
+            loading="lazy"
           />
         </div>
 
@@ -45,7 +41,7 @@ const SectionPengantin: React.FC<SectionPengantinProps> = (props) => {
             width={0}
             height={0}
             sizes="100vw"
-            priority
+            loading="lazy"
             className="h-auto w-full"
           />
         </div>
@@ -56,7 +52,7 @@ const SectionPengantin: React.FC<SectionPengantinProps> = (props) => {
             alt="section-pengantin-frame"
             width={0}
             height={0}
-            priority
+            loading="lazy"
             sizes="100vw"
             className="h-auto w-full"
           />
@@ -67,7 +63,7 @@ const SectionPengantin: React.FC<SectionPengantinProps> = (props) => {
             alt="section-pengantin-frame-2"
             width={0}
             height={0}
-            priority
+            loading="lazy"
             sizes="100vw"
             className="h-auto w-full"
           />
@@ -84,7 +80,7 @@ const SectionPengantin: React.FC<SectionPengantinProps> = (props) => {
             alt="section-pengantin-judul"
             width={0}
             height={0}
-            priority
+            loading="lazy"
             sizes="100vw"
             className="h-auto w-full"
           />
@@ -104,7 +100,7 @@ const SectionPengantin: React.FC<SectionPengantinProps> = (props) => {
             alt="section-pengantin-flower-1"
             width={0}
             height={0}
-            priority
+            loading="lazy"
             sizes="100vw"
             className="h-auto w-full"
           />
@@ -121,7 +117,7 @@ const SectionPengantin: React.FC<SectionPengantinProps> = (props) => {
             alt="section-pengantin-flower-2"
             width={0}
             height={0}
-            priority
+            loading="lazy"
             sizes="100vw"
             className="h-auto w-full"
           />
@@ -138,7 +134,7 @@ const SectionPengantin: React.FC<SectionPengantinProps> = (props) => {
             alt="section-pengantin-flower-3"
             width={0}
             height={0}
-            priority
+            loading="lazy"
             sizes="100vw"
             className="h-auto w-full"
           />
@@ -155,7 +151,7 @@ const SectionPengantin: React.FC<SectionPengantinProps> = (props) => {
             alt="section-pengantin-flower-4"
             width={0}
             height={0}
-            priority
+            loading="lazy"
             sizes="100vw"
             className="h-auto w-full"
           />
@@ -173,7 +169,7 @@ const SectionPengantin: React.FC<SectionPengantinProps> = (props) => {
             alt="section-pengantin-nama"
             width={0}
             height={0}
-            priority
+            loading="lazy"
             sizes="100vw"
             className="h-auto w-full"
           />
@@ -192,7 +188,7 @@ const SectionPengantin: React.FC<SectionPengantinProps> = (props) => {
             alt="gambar-gina"
             width={0}
             height={0}
-            priority
+            loading="lazy"
             sizes="100vw"
             className="h-auto w-full"
           />
@@ -209,7 +205,7 @@ const SectionPengantin: React.FC<SectionPengantinProps> = (props) => {
             src={GambarPanji}
             alt="gambar-panji"
             width={0}
-            priority
+            loading="lazy"
             height={0}
             sizes="100vw"
             className="h-auto w-full"
