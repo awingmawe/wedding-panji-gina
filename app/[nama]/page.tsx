@@ -1,4 +1,6 @@
 import SectionHome from '@/components/common/section-home'
+import SectionPengantin from '@/components/common/section-pengantin'
+import SectionStory from '@/components/common/section-story'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { FC } from 'react'
@@ -27,6 +29,10 @@ const Page: FC<PageProps> = async ({ params }) => {
     <main className="container min-h-screen ">
       {/* <LoadingScreen /> */}
       <SectionHome />
+
+      <SectionPengantin />
+
+      <SectionStory />
     </main>
   )
 }

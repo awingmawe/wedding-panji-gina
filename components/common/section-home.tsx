@@ -1,8 +1,8 @@
 'use client'
 
-import BgSectionHome from '@/components/assets/images/bg-section-1-cropped.png'
-import BgSectionBottomCropped from '@/components/assets/images/bg-section-bottom-cropped.png'
-import Key from '@/components/assets/images/key.png'
+import BgSectionHome from '@/components/assets/images/section-awal/bg-section-1-cropped.png'
+import BgSectionBottomCropped from '@/components/assets/images/section-awal/bg-section-bottom-cropped.png'
+import Key from '@/components/assets/images/section-awal/key.png'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
