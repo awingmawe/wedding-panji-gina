@@ -18,7 +18,7 @@ import React from 'react'
 
 const SectionPengantin: React.FC = () => {
   return (
-    <section className="relative w-full overflow-hidden" id="section-penganti">
+    <section className="relative w-full overflow-hidden" id="section-pengantin">
       {/* Container that establishes size */}
       <div className="relative aspect-[9/16] w-full">
         {/* Background elements */}

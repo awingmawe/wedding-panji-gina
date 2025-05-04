@@ -12,7 +12,8 @@ import Image from 'next/image'
 import React, { useEffect } from 'react'
 
 export default function SectionHome({ name }: { name: string }) {
-  const { loading, setLoading, progress, setProgress } = useInvitation()
+  const { loading, setLoading, progress, setProgress, isInvitationOpen } =
+    useInvitation()
 
   const refLoading = React.useRef<boolean>(false)
 
@@ -112,21 +113,37 @@ export default function SectionHome({ name }: { name: string }) {
         style={{ pointerEvents: loading ? 'none' : 'auto' }} // Disable interaction when faded out
       >
         {/* BACKGROUND TOP */}
-        <Image
-          src={BgSectionBottomCroppedTop}
-          alt="section-awal-background-top"
-          width={0}
-          height={0}
-          sizes="100vw"
-          className="absolute top-[-10px] left-0 z-10 h-auto w-full"
-          loading="lazy"
-        />
+        <motion.div
+          initial={{ opacity: 1 }}
+          animate={{ opacity: isInvitationOpen ? 0 : 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Image
+            src={BgSectionBottomCroppedTop}
+            alt="section-awal-background-top"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="absolute top-[-10px] left-0 z-10 h-auto w-full"
+            loading="lazy"
+          />
+        </motion.div>
 
         {/* DIVIDER */}
-        <div className="absolute top-5 z-10 h-[10px] w-full border-b-2 border-b-[#8b3438] bg-[#701f24]" />
+        <motion.div
+          initial={{ opacity: 1 }}
+          animate={{ opacity: isInvitationOpen ? 0 : 1 }}
+          transition={{ duration: 0.5 }}
+          className="absolute top-5 z-10 h-[10px] w-full border-b-2 border-b-[#8b3438] bg-[#701f24]"
+        />
 
         {/* ITEM FOR TEXT WEDDING */}
-        <div className="absolute top-10 left-1/2 z-10 mb-2 flex w-[90%] -translate-x-1/2 justify-between gap-1 rounded-xs border-b-2 border-b-[#8b3438] bg-[#701f24] px-3 py-2">
+        <motion.div
+          initial={{ opacity: 1 }}
+          animate={{ opacity: isInvitationOpen ? 0 : 1 }}
+          transition={{ duration: 0.5 }}
+          className="absolute top-10 left-1/2 z-10 mb-2 flex w-[90%] -translate-x-1/2 justify-between gap-1 rounded-xs border-b-2 border-b-[#8b3438] bg-[#701f24] px-3 py-2"
+        >
           <div className="flex-2 overflow-hidden rounded-sm bg-[#322a23] px-4 py-2.5">
             <motion.p
               className="text-center font-[minecraft] text-xs text-nowrap text-[#8a826c] uppercase"
@@ -146,21 +163,31 @@ export default function SectionHome({ name }: { name: string }) {
           </div>
           <div className="absolute left-[33%] h-3/4 w-2.5 bg-[#701f24]" />
           <div className="absolute right-[33%] h-3/4 w-2.5 bg-[#701f24]" />
-        </div>
+        </motion.div>
 
         {/* ITEM FOR PRINTING THE CARD */}
-        <div className="absolute top-26 left-1/2 z-10 w-[90%] -translate-x-1/2 rounded-tl-xs rounded-tr-xs bg-[#701f24] px-3 pt-2">
+        <motion.div
+          initial={{ opacity: 1 }}
+          animate={{ opacity: isInvitationOpen ? 0 : 1 }}
+          transition={{ duration: 0.5 }}
+          className="absolute top-26 left-1/2 z-10 w-[90%] -translate-x-1/2 rounded-tl-xs rounded-tr-xs bg-[#701f24] px-3 pt-2"
+        >
           <div className="relative">
             <div className="h-[4px] w-full rounded-tl-sm rounded-tr-sm bg-[#322a23]" />
           </div>
-        </div>
+        </motion.div>
 
-        <div className="absolute top-29 left-1/2 z-8 w-[90%] -translate-x-1/2 rounded-br-xs rounded-bl-xs bg-[#701f24] px-3 pb-2">
+        <motion.div
+          initial={{ opacity: 1 }}
+          animate={{ opacity: isInvitationOpen ? 0 : 1 }}
+          transition={{ duration: 0.5 }}
+          className="absolute top-29 left-1/2 z-8 w-[90%] -translate-x-1/2 rounded-br-xs rounded-bl-xs bg-[#701f24] px-3 pb-2"
+        >
           <div className="relative">
             <div className="h-[4px] w-full bg-[#322a23]" />
             <div className="absolute bottom-0 left-1/2 h-[2px] w-[90%] -translate-x-1/2 rounded-tl-xs rounded-tr-xs bg-[#2b201a]" />
           </div>
-        </div>
+        </motion.div>
 
         {/* BACKGROUND RED */}
         <Image
@@ -204,10 +231,14 @@ export default function SectionHome({ name }: { name: string }) {
 
       {/* Content card */}
       <motion.div
-        className={`absolute top-[-80%] ${loading ? 'opacity-0' : 'opacity-100'} z-8 scale-[85%]`}
-        initial={{ top: '-80%' }}
+        className={`absolute top-[-80%] ${loading ? 'opacity-0' : 'opacity-100'} z-8 w-full`}
+        initial={{ top: '-80%', scale: 0.85 }}
         animate={
-          loading ? {} : { top: 0, transition: { duration: 4, delay: 2 } }
+          loading
+            ? { scale: 0.85 }
+            : isInvitationOpen
+              ? { top: 0, scale: 1, transition: { duration: 1 } }
+              : { top: 0, scale: 0.85, transition: { duration: 4, delay: 2 } }
         }
       >
         <CardOpenWedding name={name} loading={loading} />
