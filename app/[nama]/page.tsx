@@ -1,12 +1,15 @@
-import SectionHome from '@/components/common/section-home'
+import SectionHome from '@/components/common/section-home-with-loading'
+import SectionPengantin from '@/components/common/section-pengantin'
+import SectionStory from '@/components/common/section-story'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { FC } from 'react'
 
+// Update the interface to use Promise for params
 interface PageProps {
-  params: {
+  params: Promise<{
     nama: string
-  }
+  }>
 }
 
 export const metadata: Metadata = {
@@ -14,6 +17,7 @@ export const metadata: Metadata = {
   description: 'Wedding invitation for Gina & Panji',
 }
 
+// The rest of your code remains the same
 const Page: FC<PageProps> = async ({ params }) => {
   const { nama } = await params
 
@@ -21,12 +25,15 @@ const Page: FC<PageProps> = async ({ params }) => {
     notFound()
   }
 
-  const decodedNama = decodeURIComponent(nama)
+  // const decodedNama = decodeURIComponent(nama)
 
   return (
     <main className="container min-h-screen ">
-      {/* <LoadingScreen /> */}
-      <SectionHome />
+      <SectionHome name={nama} />
+
+      <SectionPengantin />
+
+      <SectionStory />
     </main>
   )
 }

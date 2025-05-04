@@ -1,3 +1,4 @@
+import { InvitationProvider } from '@/components/context/provider'
 import OrientationLock from '@/lib/useDisableLandscape'
 import type { Metadata } from 'next'
 import './globals.css'
@@ -13,10 +14,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`mx-auto max-w-md shadow-lg`}>
-        <OrientationLock />
-        {children}
+        <InvitationProvider>
+          <OrientationLock />
+          {children}
+        </InvitationProvider>
       </body>
     </html>
   )
