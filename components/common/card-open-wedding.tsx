@@ -1,7 +1,7 @@
 'use client'
 
 import BgCardOpenWedding from '@/components/assets/images/card-open-wedding/bg-card-open-wedding.png'
-import TextPanjiGina from '@/components/assets/images/card-open-wedding/text-panji-gina.png'
+import TextPanjiGina from '@/components/assets/images/card-open-wedding/text-panji-gina.svg'
 import FlowersCardWedding from '@/components/common/flowers-card-wedding'
 import { useInvitation } from '@/components/context/provider'
 import { motion } from 'framer-motion'
