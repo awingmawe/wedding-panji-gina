@@ -17,6 +17,13 @@
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: 'milk-honey';
+  src: url('/fonts/MilkAndHoney.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
 
 @custom-variant limitedHeight (@media (min-height: 667px));
 

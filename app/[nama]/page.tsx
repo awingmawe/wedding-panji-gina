@@ -1,3 +1,7 @@
+import SectionBride from '@/components/common/section-bride'
+import SectionCountdown from '@/components/common/section-countdown'
+import SectionDoa from '@/components/common/section-doa'
+import SectionGroom from '@/components/common/section-groom'
 import SectionHome from '@/components/common/section-home-with-loading'
 import SectionPengantin from '@/components/common/section-pengantin'
 import SectionStory from '@/components/common/section-story'
@@ -34,6 +38,14 @@ const Page: FC<PageProps> = async ({ params }) => {
       <SectionPengantin />
 
       <SectionStory />
+
+      <SectionDoa />
+
+      <SectionGroom />
+
+      <SectionBride />
+
+      <SectionCountdown />
     </main>
   )
 }
