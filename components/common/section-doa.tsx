@@ -1,13 +1,13 @@
 'use client'
 
-import BgFrame from '@/components/assets/images/section-doa/bg-section-doa.png'
-import Flower1 from '@/components/assets/images/section-doa/flower-1.png'
-import Flower2 from '@/components/assets/images/section-doa/flower-2.png'
-import Flower3 from '@/components/assets/images/section-doa/flower-3.png'
-import Flower4 from '@/components/assets/images/section-doa/flower-4.png'
-import Flower5 from '@/components/assets/images/section-doa/flower-5.png'
-import Flower6 from '@/components/assets/images/section-doa/flower-6.png'
-import FrameSectionDoa from '@/components/assets/images/section-doa/frame-section-doa.png'
+import BgFrame from '@/components/assets/images/section-doa/bg-section-doa.svg'
+import Flower1 from '@/components/assets/images/section-doa/flower-1.svg'
+import Flower2 from '@/components/assets/images/section-doa/flower-2.svg'
+import Flower3 from '@/components/assets/images/section-doa/flower-3.svg'
+import Flower4 from '@/components/assets/images/section-doa/flower-4.svg'
+import Flower5 from '@/components/assets/images/section-doa/flower-5.svg'
+import Flower6 from '@/components/assets/images/section-doa/flower-6.svg'
+import FrameSectionDoa from '@/components/assets/images/section-doa/frame-section-doa.svg'
 import Surat from '@/components/assets/images/section-doa/surat.png'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
@@ -35,7 +35,7 @@ const SectionDoa: React.FC = () => {
             initial={{ rotateY: -180, opacity: 0 }}
             whileInView={{ rotateY: 0, opacity: 1 }}
             transition={{ duration: 1.5, delay: 0.2, ease: 'easeInOut' }}
-            viewport={{ once: true, amount: 0.5 }}
+            viewport={{ once: false, amount: 0.5 }}
             className="absolute -top-20 -left-10 z-10"
           >
             <Image
@@ -53,7 +53,7 @@ const SectionDoa: React.FC = () => {
             initial={{ rotateY: -180, opacity: 0 }}
             whileInView={{ rotateY: 0, opacity: 1 }}
             transition={{ duration: 1.5, delay: 0.2, ease: 'easeInOut' }}
-            viewport={{ once: true, amount: 0.5 }}
+            viewport={{ once: false, amount: 0.5 }}
             className="absolute top-10 -left-10 z-10"
           >
             <Image
@@ -71,7 +71,7 @@ const SectionDoa: React.FC = () => {
             initial={{ rotateY: -180, opacity: 0 }}
             whileInView={{ rotateY: 0, opacity: 1 }}
             transition={{ duration: 1.5, delay: 0.2, ease: 'easeInOut' }}
-            viewport={{ once: true, amount: 0.5 }}
+            viewport={{ once: false, amount: 0.5 }}
             className="absolute bottom-0 left-0 z-10"
           >
             <Image
@@ -89,7 +89,7 @@ const SectionDoa: React.FC = () => {
             initial={{ rotateY: -180, opacity: 0 }}
             whileInView={{ rotateY: 0, opacity: 1 }}
             transition={{ duration: 1.5, delay: 0.4, ease: 'easeInOut' }}
-            viewport={{ once: true, amount: 0.5 }}
+            viewport={{ once: false, amount: 0.5 }}
             className="absolute top-20 -right-10 z-10"
           >
             <Image
@@ -107,7 +107,7 @@ const SectionDoa: React.FC = () => {
             initial={{ rotateY: -180, opacity: 0 }}
             whileInView={{ rotateY: 0, opacity: 1 }}
             transition={{ duration: 1.5, delay: 0.4, ease: 'easeInOut' }}
-            viewport={{ once: true, amount: 0.5 }}
+            viewport={{ once: false, amount: 0.5 }}
             className="absolute -right-10 bottom-30 z-10"
           >
             <Image
@@ -125,7 +125,7 @@ const SectionDoa: React.FC = () => {
             initial={{ rotateY: -180, opacity: 0 }}
             whileInView={{ rotateY: 0, opacity: 1 }}
             transition={{ duration: 1.5, delay: 0.4, ease: 'easeInOut' }}
-            viewport={{ once: true, amount: 0.5 }}
+            viewport={{ once: false, amount: 0.5 }}
             className="absolute -right-10 -bottom-10 z-10 "
           >
             <Image
@@ -147,7 +147,7 @@ const SectionDoa: React.FC = () => {
           />
           <motion.div
             initial={{ opacity: 0 }}
-            viewport={{ once: true, amount: 0.5 }}
+            viewport={{ once: false, amount: 0.5 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
             className="absolute -top-10 right-0 h-auto"
@@ -163,7 +163,7 @@ const SectionDoa: React.FC = () => {
           </motion.div>
           <motion.p
             initial={{ opacity: 0 }}
-            viewport={{ once: true, amount: 0.5 }}
+            viewport={{ once: false, amount: 0.5 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.5, ease: 'easeOut', delay: 0.5 }}
             className="absolute top-1/2 left-1/2 z-99 w-[175px] -translate-x-1/2 -translate-y-1/2 text-center text-[13px] text-[#606161]"

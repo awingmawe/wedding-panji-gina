@@ -1,16 +1,15 @@
 'use client'
 
-import BgFrame from '@/components/assets/images/section-countdown/bg-section-countdown.png'
-import Flower1 from '@/components/assets/images/section-countdown/flower-1.png'
-import Flower2 from '@/components/assets/images/section-countdown/flower-2.png'
-import Flower3 from '@/components/assets/images/section-countdown/flower-3.png'
-import Flower4 from '@/components/assets/images/section-countdown/flower-4.png'
-import Flower5 from '@/components/assets/images/section-countdown/flower-5.png'
-import Flower6 from '@/components/assets/images/section-countdown/flower-6.png'
-import Flower7 from '@/components/assets/images/section-countdown/flower-7.png'
-import Flower8 from '@/components/assets/images/section-countdown/flower-8.png'
-import Frame from '@/components/assets/images/section-countdown/frame-section-countdown.png'
-import PanjiGinaSepeda from '@/components/assets/images/section-countdown/panji-gina-bycycle.png'
+import BgFrame from '@/components/assets/images/section-countdown/bg-section-countdown.svg'
+import Flower1 from '@/components/assets/images/section-countdown/flower-1.svg'
+import Flower2 from '@/components/assets/images/section-countdown/flower-2.svg'
+import Flower3 from '@/components/assets/images/section-countdown/flower-3.svg'
+import Flower4 from '@/components/assets/images/section-countdown/flower-4.svg'
+import Flower5 from '@/components/assets/images/section-countdown/flower-5.svg'
+import Flower6 from '@/components/assets/images/section-countdown/flower-6.svg'
+import Flower7 from '@/components/assets/images/section-countdown/flower-7.svg'
+import Flower8 from '@/components/assets/images/section-countdown/flower-8.svg'
+import Frame from '@/components/assets/images/section-countdown/frame-section-countdown.svg'
 import Countdown from '@/components/common/countdown'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
@@ -79,7 +78,7 @@ const SectionCountdown: React.FC = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
         >
           <div className="relative flex flex-col items-center gap-2">
             {/* Flowers positioning */}
@@ -90,7 +89,7 @@ const SectionCountdown: React.FC = () => {
               initial="hidden"
               whileInView="visible"
               custom={0}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               style={{ perspective: '500px' }}
             >
               <Image
@@ -111,7 +110,7 @@ const SectionCountdown: React.FC = () => {
               initial="hidden"
               whileInView="visible"
               custom={1}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               style={{ perspective: '500px' }}
             >
               <Image
@@ -132,7 +131,7 @@ const SectionCountdown: React.FC = () => {
               initial="hidden"
               whileInView="visible"
               custom={2}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               style={{ perspective: '500px' }}
             >
               <Image
@@ -153,7 +152,7 @@ const SectionCountdown: React.FC = () => {
               initial="hidden"
               whileInView="visible"
               custom={3}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               style={{ perspective: '500px' }}
             >
               <Image
@@ -174,7 +173,7 @@ const SectionCountdown: React.FC = () => {
               initial="hidden"
               whileInView="visible"
               custom={4}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               style={{ perspective: '500px' }}
             >
               <Image
@@ -195,7 +194,7 @@ const SectionCountdown: React.FC = () => {
               initial="hidden"
               whileInView="visible"
               custom={5}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               style={{ perspective: '500px' }}
             >
               <Image
@@ -216,7 +215,7 @@ const SectionCountdown: React.FC = () => {
               initial="hidden"
               whileInView="visible"
               custom={6}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               style={{ perspective: '500px' }}
             >
               <Image
@@ -237,7 +236,7 @@ const SectionCountdown: React.FC = () => {
               initial="hidden"
               whileInView="visible"
               custom={7}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               style={{ perspective: '500px' }}
             >
               <Image
@@ -255,7 +254,7 @@ const SectionCountdown: React.FC = () => {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               className="absolute top-20 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2"
             >
               <p className="font-[milk-honey] text-2xl text-[#3D3D3D] uppercase">
@@ -267,7 +266,7 @@ const SectionCountdown: React.FC = () => {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               className="absolute top-1/2 left-1/2 mx-auto grid w-full max-w-[300px] -translate-x-1/2 -translate-y-1/2 grid-cols-12 justify-center space-y-6 gap-x-0"
             >
               <Countdown />
@@ -276,7 +275,7 @@ const SectionCountdown: React.FC = () => {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
             >
               <Image
                 src={Frame}
@@ -293,16 +292,16 @@ const SectionCountdown: React.FC = () => {
               whileInView={{ opacity: 1, x: '0%' }}
               transition={{ duration: 0.8, delay: 0.8 }}
               exit={{ opacity: 0, x: '100%' }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               className="absolute -bottom-20 z-10 max-lg:-bottom-[15vw]"
             >
               <Image
-                src={PanjiGinaSepeda}
+                src={`${process.env.NEXT_PUBLIC_URL_IMAGE}section-countdown-sepeda.svg`}
                 alt="section-countdown-frame"
                 width={0}
                 height={0}
                 sizes="100vw"
-                className="h-auto"
+                className="h-auto w-full"
                 loading="lazy"
               />
             </motion.div>

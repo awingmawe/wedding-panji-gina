@@ -1,16 +1,13 @@
 'use client'
 
 import BgFrame2 from '@/components/assets/images/section-pengantin/bg-frame-2.png'
-import BgFrame from '@/components/assets/images/section-pengantin/bg-frame.png'
-import Flower1 from '@/components/assets/images/section-pengantin/flower-1.png'
-import Flower2 from '@/components/assets/images/section-pengantin/flower-2.png'
-import Flower3 from '@/components/assets/images/section-pengantin/flower-3.png'
-import Flower4 from '@/components/assets/images/section-pengantin/flower-4.png'
+import BgFrame from '@/components/assets/images/section-pengantin/bg-frame.svg'
+import Flower1 from '@/components/assets/images/section-pengantin/flower-1.svg'
+import Flower2 from '@/components/assets/images/section-pengantin/flower-2.svg'
+import Flower3 from '@/components/assets/images/section-pengantin/flower-3.svg'
+import Flower4 from '@/components/assets/images/section-pengantin/flower-4.svg'
 import FramePengantin2 from '@/components/assets/images/section-pengantin/frame-pengantin-2.png'
-import FramePengantin from '@/components/assets/images/section-pengantin/frame-pengantin.png'
-import GambarGina from '@/components/assets/images/section-pengantin/gambar-gina.png'
-import GambarPanji from '@/components/assets/images/section-pengantin/gambar-panji.png'
-import NamaPengantin from '@/components/assets/images/section-pengantin/nama-pengantin.svg'
+import FramePengantin from '@/components/assets/images/section-pengantin/frame-pengantin.svg'
 import JudulPengantin from '@/components/assets/images/section-pengantin/title-pengantin.svg'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
@@ -70,7 +67,7 @@ const SectionPengantin: React.FC = () => {
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: true, amount: 0.5 }}
+          viewport={{ once: false, amount: 0.5 }}
           transition={{ duration: 0.8, ease: 'easeOut', delay: 0.8 }}
           className="absolute top-[65px] left-[45px] z-11 h-auto w-1/2"
         >
@@ -90,7 +87,7 @@ const SectionPengantin: React.FC = () => {
             opacity: 1,
             rotateY: 0,
           }}
-          viewport={{ once: true, amount: 0.5 }}
+          viewport={{ once: false, amount: 0.5 }}
           transition={{ duration: 0.8, ease: 'easeOut', delay: 0.5 }}
           className="absolute right-0 bottom-40 z-11 h-auto"
         >
@@ -108,7 +105,7 @@ const SectionPengantin: React.FC = () => {
             opacity: 1,
             rotateY: 0,
           }}
-          viewport={{ once: true, amount: 0.5 }}
+          viewport={{ once: false, amount: 0.5 }}
           transition={{ duration: 0.8, ease: 'easeOut', delay: 0.8 }}
           className="absolute right-10 bottom-30 z-11 h-auto"
         >
@@ -126,7 +123,7 @@ const SectionPengantin: React.FC = () => {
             opacity: 1,
             rotateY: 0,
           }}
-          viewport={{ once: true, amount: 0.5 }}
+          viewport={{ once: false, amount: 0.5 }}
           transition={{ duration: 0.8, ease: 'easeOut', delay: 0.8 }}
           className="absolute bottom-30 left-10 z-11 h-auto"
         >
@@ -144,7 +141,7 @@ const SectionPengantin: React.FC = () => {
             opacity: 1,
             rotateY: 0,
           }}
-          viewport={{ once: true, amount: 0.5 }}
+          viewport={{ once: false, amount: 0.5 }}
           transition={{ duration: 0.8, ease: 'easeOut', delay: 0.8 }}
           className="absolute bottom-40 left-0 z-11"
         >
@@ -158,14 +155,14 @@ const SectionPengantin: React.FC = () => {
         </motion.div>
 
         <motion.div
-          initial={{ y: 150 }}
-          whileInView={{ y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
+          initial={{ bottom: -20, opacity: 0 }}
+          whileInView={{ bottom: 25, opacity: 1 }}
+          viewport={{ once: false, amount: 0.5 }}
           transition={{ duration: 0.4, ease: 'easeOut', delay: 0.8 }}
           className="absolute z-11 h-auto w-full"
         >
           <Image
-            src={NamaPengantin}
+            src={`${process.env.NEXT_PUBLIC_URL_IMAGE}section-ilustrasi-nama.svg`}
             alt="section-pengantin-nama"
             width={0}
             height={0}
@@ -179,12 +176,12 @@ const SectionPengantin: React.FC = () => {
         <motion.div
           initial={{ x: 100, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
-          viewport={{ once: true, amount: 0.5 }}
+          viewport={{ once: false, amount: 0.5 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="absolute z-[2] h-auto w-full"
+          className="absolute right-[11%] bottom-1/4 z-[2] h-auto w-1/2"
         >
           <Image
-            src={GambarGina}
+            src={`${process.env.NEXT_PUBLIC_URL_IMAGE}section-ilustrasi-gina.svg`}
             alt="gambar-gina"
             width={0}
             height={0}
@@ -197,12 +194,12 @@ const SectionPengantin: React.FC = () => {
         <motion.div
           initial={{ x: -100, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
-          viewport={{ once: true, amount: 0.5 }}
+          viewport={{ once: false, amount: 0.5 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="absolute z-[1] h-auto w-full"
+          className="absolute bottom-[35%] left-[13%] z-[1] h-auto w-1/2"
         >
           <Image
-            src={GambarPanji}
+            src={`${process.env.NEXT_PUBLIC_URL_IMAGE}section-ilustrasi-panji.svg`}
             alt="gambar-panji"
             width={0}
             loading="lazy"

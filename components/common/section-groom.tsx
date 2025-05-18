@@ -1,9 +1,8 @@
 'use client'
 
-import BgFrame from '@/components/assets/images/section-groom-bride/bg-section-groom-bride.png'
-import GroomPanji from '@/components/assets/images/section-groom-bride/groom-panji.png'
-import WeddingOf from '@/components/assets/images/section-groom-bride/groom-wedding-of.png'
-import PanjiNama from '@/components/assets/images/section-groom-bride/nama-groom-panji.png'
+import BgFrame from '@/components/assets/images/section-groom-bride/bg-section-groom-bride.svg'
+import WeddingOf from '@/components/assets/images/section-groom-bride/groom-wedding-of.svg'
+import PanjiNama from '@/components/assets/images/section-groom-bride/nama-groom-panji.svg'
 import { motion } from 'framer-motion' // Import framer-motion
 import Image from 'next/image'
 import React from 'react'
@@ -31,22 +30,22 @@ const SectionGroom: React.FC = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
         >
           <div className="relative flex flex-col items-center gap-1">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
             >
               <Image
-                src={GroomPanji}
+                src={`${process.env.NEXT_PUBLIC_URL_IMAGE}section-groom-gambar-panji.svg`}
                 alt="section-groom-panji"
                 width={0}
                 height={0}
                 sizes="100vw"
-                className="mx-auto h-auto"
+                className="mx-auto h-auto w-[375px]"
                 loading="lazy"
               />
             </motion.div>
@@ -54,7 +53,7 @@ const SectionGroom: React.FC = () => {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
             >
               <Image
                 src={WeddingOf}
@@ -70,7 +69,7 @@ const SectionGroom: React.FC = () => {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
             >
               <Image
                 src={PanjiNama}
@@ -87,7 +86,7 @@ const SectionGroom: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
             >
               <p className="text-xs text-black">Putra Pertama dari</p>
               <p className="text-xs text-black">
@@ -101,7 +100,7 @@ const SectionGroom: React.FC = () => {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
             >
               @panjinrr
             </motion.a>

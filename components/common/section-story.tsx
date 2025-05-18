@@ -1,11 +1,6 @@
 'use client'
 
-import BgSectionStory from '@/components/assets/images/section-story/bg-section-story.png'
-import Chapter1 from '@/components/assets/images/section-story/chapter-1-story.png'
-import Chapter2 from '@/components/assets/images/section-story/chapter-2-story.png'
-import Chapter3 from '@/components/assets/images/section-story/chapter-3-story.png'
-import Chapter4 from '@/components/assets/images/section-story/chapter-4-story.png'
-import Chapter5 from '@/components/assets/images/section-story/chapter-5-story.png'
+import BgSectionStory from '@/components/assets/images/section-story/bg-section-story.svg'
 import {
   Carousel,
   CarouselContent,
@@ -23,7 +18,7 @@ interface StoryChapter {
   title: string
   subtitle: string
   bgTitle: string
-  image: StaticImageData
+  image: StaticImageData | string
 }
 
 // Create an array of story chapters
@@ -33,35 +28,35 @@ const storyChapters: StoryChapter[] = [
     title: 'Chapter 1',
     subtitle: 'HEY!! NICE TO MEET YOU',
     bgTitle: '#703F4E',
-    image: Chapter1,
+    image: `${process.env.NEXT_PUBLIC_URL_IMAGE}chapter-1-story.svg`,
   },
   {
     id: 2,
     title: 'Chapter 2',
     subtitle: 'KINDA A DATE?',
     bgTitle: '#664550',
-    image: Chapter2,
+    image: `${process.env.NEXT_PUBLIC_URL_IMAGE}section-story-chapter-2.svg`,
   },
   {
     id: 3,
     title: 'Chapter 3',
     subtitle: '" JUST THE TWO OF US "',
     bgTitle: '#80423C',
-    image: Chapter3,
+    image: `${process.env.NEXT_PUBLIC_URL_IMAGE}section-story-chapter-3.svg`,
   },
   {
     id: 4,
     title: 'Chapter 4',
     subtitle: 'LOVE IN DIFFERENT TIME ZONES',
     bgTitle: '#6D394E',
-    image: Chapter4,
+    image: `${process.env.NEXT_PUBLIC_URL_IMAGE}section-story-chapter-4.svg`,
   },
   {
     id: 5,
     title: 'Chapter 5',
     subtitle: 'A NEW CHAPTER BEGINS',
     bgTitle: '#85352F',
-    image: Chapter5,
+    image: `${process.env.NEXT_PUBLIC_URL_IMAGE}section-story-chapter-5.svg`,
   },
 ]
 
@@ -138,7 +133,7 @@ const SectionStory: React.FC = () => {
           width={0}
           height={0}
           sizes="100vw"
-          className="h-auto w-full"
+          className="h-auto w-full scale-102"
         />
 
         <div className="absolute top-1/2 left-1/2 w-[320px] -translate-x-1/2 -translate-y-1/2">

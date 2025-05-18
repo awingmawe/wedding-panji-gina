@@ -1,3 +1,4 @@
+import SectionAkad from '@/components/common/section-akad'
 import SectionBride from '@/components/common/section-bride'
 import SectionCountdown from '@/components/common/section-countdown'
 import SectionDoa from '@/components/common/section-doa'
@@ -46,6 +47,8 @@ const Page: FC<PageProps> = async ({ params }) => {
       <SectionBride />
 
       <SectionCountdown />
+
+      <SectionAkad />
     </main>
   )
 }
