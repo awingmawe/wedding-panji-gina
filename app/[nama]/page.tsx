@@ -3,6 +3,7 @@ import SectionAttire from '@/components/common/section-attire'
 import SectionBride from '@/components/common/section-bride'
 import SectionCountdown from '@/components/common/section-countdown'
 import SectionDoa from '@/components/common/section-doa'
+import SectionGift from '@/components/common/section-gift'
 import SectionGroom from '@/components/common/section-groom'
 import SectionHome from '@/components/common/section-home-with-loading'
 import SectionKonfirmasi from '@/components/common/section-konfirmasi'
@@ -44,9 +45,9 @@ const Page: FC<PageProps> = async ({ params }) => {
 
       <SectionDoa />
 
-      <SectionGroom />
-
       <SectionBride />
+
+      <SectionGroom />
 
       <SectionCountdown />
 
@@ -55,6 +56,8 @@ const Page: FC<PageProps> = async ({ params }) => {
       <SectionKonfirmasi />
 
       <SectionAttire />
+
+      <SectionGift />
     </main>
   )
 }

@@ -111,3 +111,29 @@
     font-family: 'bodoni-bk', Roboto;
   }
 }
+
+.box-inside {
+  position: absolute;
+}
+.box-inside:before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #ce8096;
+  mask:
+    radial-gradient(
+        40px at 40px 40px,
+        #0000 calc(98% - 2px),
+        #000 calc(100% - 2px) 98%,
+        #0000
+      ) -40px -40px,
+    linear-gradient(90deg, #000 4px, #0000 0) -2px 50% /100%
+      calc(100% - 80px + 2px) repeat-x,
+    linear-gradient(#000 4px, #0000 0) 50% -2px / calc(100% - 80px + 2px) 100%
+      repeat-y;
+}
+
+.box {
+  mask: radial-gradient(40px at 40px 40px, #0000 98%, #000) -40px -40px;
+  background-color: #ddd3c8;
+}

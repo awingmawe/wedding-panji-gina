@@ -1,4 +1,5 @@
 import { InvitationProvider } from '@/components/context/provider'
+import { Toaster } from '@/components/ui/sonner'
 import OrientationLock from '@/lib/useDisableLandscape'
 import type { Metadata } from 'next'
 import './globals.css'
@@ -17,6 +18,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`mx-auto max-w-md shadow-lg`}>
         <InvitationProvider>
+          <Toaster richColors />
           <OrientationLock />
           {children}
         </InvitationProvider>
