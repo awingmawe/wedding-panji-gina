@@ -31,7 +31,7 @@ const SectionAkad: React.FC = () => {
   ]
 
   return (
-    <section className="relative w-full overflow-hidden" id="section-akad">
+    <section className="relative w-full" id="section-akad">
       {/* Container that establishes size */}
       <div className="relative aspect-[9/16] w-full">
         {/* Background elements */}
@@ -287,15 +287,23 @@ const SectionAkad: React.FC = () => {
           </div>
         </motion.div>
 
-        <Image
-          src={Gedung}
-          alt="section-akad-background"
-          width={0}
-          height={0}
-          sizes="100vw"
-          className="absolute bottom-10 h-auto w-full"
-          loading="lazy"
-        />
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          viewport={{ once: false }}
+          className="absolute bottom-10 w-full"
+        >
+          <Image
+            src={Gedung}
+            alt="section-akad-background"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="h-auto w-full"
+            loading="lazy"
+          />
+        </motion.div>
       </div>
     </section>
   )

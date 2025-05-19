@@ -309,14 +309,12 @@ const SectionCountdown: React.FC = () => {
               href={createGoogleCalendarUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="absolute -bottom-10 left-1/2 z-11 -translate-x-1/2 text-nowrap text-white uppercase transition-all hover:bg-[#896B58] max-lg:-bottom-[3vw]"
+              className="absolute -bottom-10 left-1/2 z-11 -translate-x-1/2 rounded-full border-1 border-[#CF935F] bg-[#8D4F5D] px-4 py-2.5 font-[milk-honey] text-[8px] font-thin text-nowrap text-white uppercase transition-all hover:bg-[#896B58] max-lg:-bottom-[3vw]"
+              whileInView={{ opacity: 1 }}
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 1 }}
+              transition={{ duration: 0.8, delay: 1 }}
             >
-              <span className="rounded-full border-1 border-[#CF935F] bg-[#8D4F5D] px-4 py-2.5 font-[milk-honey] text-[8px] font-thin">
-                Tambah Ke Kalender
-              </span>
+              Tambah Ke Kalender
             </motion.a>
           </div>
         </motion.div>

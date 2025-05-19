@@ -1,9 +1,11 @@
 import SectionAkad from '@/components/common/section-akad'
+import SectionAttire from '@/components/common/section-attire'
 import SectionBride from '@/components/common/section-bride'
 import SectionCountdown from '@/components/common/section-countdown'
 import SectionDoa from '@/components/common/section-doa'
 import SectionGroom from '@/components/common/section-groom'
 import SectionHome from '@/components/common/section-home-with-loading'
+import SectionKonfirmasi from '@/components/common/section-konfirmasi'
 import SectionPengantin from '@/components/common/section-pengantin'
 import SectionStory from '@/components/common/section-story'
 import { Metadata } from 'next'
@@ -33,7 +35,7 @@ const Page: FC<PageProps> = async ({ params }) => {
   // const decodedNama = decodeURIComponent(nama)
 
   return (
-    <main className="container min-h-screen ">
+    <main className="container min-h-screen overflow-x-hidden">
       <SectionHome name={nama} />
 
       <SectionPengantin />
@@ -49,6 +51,10 @@ const Page: FC<PageProps> = async ({ params }) => {
       <SectionCountdown />
 
       <SectionAkad />
+
+      <SectionKonfirmasi />
+
+      <SectionAttire />
     </main>
   )
 }
