@@ -1,3 +1,4 @@
+import DummyTest from '@/components/common/dummy-test'
 import SectionAkad from '@/components/common/section-akad'
 import SectionAttire from '@/components/common/section-attire'
 import SectionBride from '@/components/common/section-bride'
@@ -40,6 +41,8 @@ const Page: FC<PageProps> = async ({ params }) => {
       <SectionHome name={nama} />
 
       <SectionPengantin />
+
+      <DummyTest />
 
       <SectionStory />
 
