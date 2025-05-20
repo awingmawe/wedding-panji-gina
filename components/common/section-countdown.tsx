@@ -293,7 +293,7 @@ const SectionCountdown: React.FC = () => {
               transition={{ duration: 0.8, delay: 0.8 }}
               exit={{ opacity: 0, x: '100%' }}
               viewport={{ once: false }}
-              className="absolute -bottom-20 z-10 max-lg:-bottom-[15vw]"
+              className="absolute -bottom-20 z-10 max-[475px]:-bottom-[15vw]"
             >
               <Image
                 src={`${process.env.NEXT_PUBLIC_URL_IMAGE}asset-1.svg`}
@@ -301,7 +301,7 @@ const SectionCountdown: React.FC = () => {
                 width={0}
                 height={0}
                 sizes="100vw"
-                className="h-auto w-full"
+                className="mx-auto h-auto w-[75%]"
                 loading="lazy"
               />
             </motion.div>

@@ -89,7 +89,7 @@ const SectionPengantin: React.FC = () => {
           }}
           viewport={{ once: false, amount: 0.5 }}
           transition={{ duration: 0.8, ease: 'easeOut', delay: 0.5 }}
-          className="absolute right-0 bottom-40 z-11 h-auto"
+          className="absolute right-0 bottom-40 z-11 h-auto max-[375px]:w-[100px]"
         >
           <Image
             src={Flower1}
@@ -125,7 +125,7 @@ const SectionPengantin: React.FC = () => {
           }}
           viewport={{ once: false, amount: 0.5 }}
           transition={{ duration: 0.8, ease: 'easeOut', delay: 0.8 }}
-          className="absolute bottom-30 left-10 z-11 h-auto"
+          className="absolute bottom-30 left-10 z-11 h-auto "
         >
           <Image
             src={Flower3}
@@ -143,7 +143,7 @@ const SectionPengantin: React.FC = () => {
           }}
           viewport={{ once: false, amount: 0.5 }}
           transition={{ duration: 0.8, ease: 'easeOut', delay: 0.8 }}
-          className="absolute bottom-40 left-0 z-11"
+          className="absolute bottom-40 left-0 z-11 h-auto max-[375px]:w-[80px]"
         >
           <Image
             src={Flower4}
@@ -178,10 +178,10 @@ const SectionPengantin: React.FC = () => {
           whileInView={{ x: 0, opacity: 1 }}
           viewport={{ once: false, amount: 0.5 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="absolute right-[11%] bottom-1/4 z-[2] h-auto w-1/2"
+          className="absolute right-[7%] bottom-[22%] z-[2] h-auto w-[55%]"
         >
           <Image
-            src={`${process.env.NEXT_PUBLIC_URL_IMAGE}section-ilustrasi-gina.svg`}
+            src={`${process.env.NEXT_PUBLIC_URL_IMAGE}asset-3.svg`}
             alt="gambar-gina"
             width={0}
             height={0}
@@ -196,10 +196,10 @@ const SectionPengantin: React.FC = () => {
           whileInView={{ x: 0, opacity: 1 }}
           viewport={{ once: false, amount: 0.5 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="absolute bottom-[35%] left-[13%] z-[1] h-auto w-1/2"
+          className="absolute bottom-[30%] left-[12%] z-[1] h-auto w-[55%]"
         >
           <Image
-            src={`${process.env.NEXT_PUBLIC_URL_IMAGE}section-ilustrasi-panji.svg`}
+            src={`${process.env.NEXT_PUBLIC_URL_IMAGE}asset-2.svg`}
             alt="gambar-panji"
             width={0}
             loading="lazy"
