@@ -8,6 +8,7 @@ import SectionGroom from '@/components/common/section-groom'
 import SectionHome from '@/components/common/section-home-with-loading'
 import SectionKonfirmasi from '@/components/common/section-konfirmasi'
 import SectionPengantin from '@/components/common/section-pengantin'
+import SectionPhoto from '@/components/common/section-photo'
 import SectionStory from '@/components/common/section-story'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
@@ -56,6 +57,8 @@ const Page: FC<PageProps> = async ({ params }) => {
       <SectionKonfirmasi />
 
       <SectionAttire />
+
+      <SectionPhoto />
 
       <SectionGift />
     </main>

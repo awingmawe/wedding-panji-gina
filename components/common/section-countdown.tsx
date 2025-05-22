@@ -296,7 +296,7 @@ const SectionCountdown: React.FC = () => {
               className="absolute -bottom-20 z-10 max-[475px]:-bottom-[15vw]"
             >
               <Image
-                src={`${process.env.NEXT_PUBLIC_URL_IMAGE}asset-1.svg`}
+                src={`${process.env.NEXT_PUBLIC_URL_IMAGE}section-countdown-sepeda.svg`}
                 alt="section-countdown-frame"
                 width={0}
                 height={0}

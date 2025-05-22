@@ -28,7 +28,7 @@ const storyChapters: StoryChapter[] = [
     title: 'Chapter 1',
     subtitle: 'HEY!! NICE TO MEET YOU',
     bgTitle: '#703F4E',
-    image: `${process.env.NEXT_PUBLIC_URL_IMAGE}asset-8.svg`,
+    image: `${process.env.NEXT_PUBLIC_URL_IMAGE}section-story-chapter-1.svg`,
   },
   {
     id: 2,

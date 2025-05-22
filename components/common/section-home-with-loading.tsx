@@ -16,26 +16,32 @@ export default function SectionHome({ name }: { name: string }) {
     useInvitation()
 
   const refLoading = React.useRef<boolean>(false)
-
   // Simulate loading progress
   useEffect(() => {
-    if (refLoading.current) return
+    const IS_VISITED = localStorage.getItem('IS_VISITED') ?? null
+    if (!IS_VISITED) {
+      if (refLoading.current) return
 
-    const timer = setInterval(() => {
-      setProgress((prevProgress) => {
-        if (prevProgress >= 100) {
-          clearInterval(timer)
-          // Add a small delay before showing main content fully
-          setTimeout(() => setLoading(false), 2000)
-          return 100
-        }
-        return prevProgress + Math.floor(Math.random() * 10) + 1
-      })
-    }, 200)
+      const timer = setInterval(() => {
+        setProgress((prevProgress) => {
+          if (prevProgress >= 100) {
+            clearInterval(timer)
+            // Add a small delay before showing main content fully
+            setTimeout(() => setLoading(false), 2000)
+            localStorage.setItem('IS_VISITED', 'true')
+            return 100
+          }
+          return prevProgress + Math.floor(Math.random() * 10) + 1
+        })
+      }, 200)
 
-    refLoading.current = true
-    return () => {
-      clearInterval(timer)
+      refLoading.current = true
+      return () => {
+        clearInterval(timer)
+      }
+    } else {
+      setLoading(false)
+      setProgress(100)
     }
   }, [])
 

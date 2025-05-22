@@ -19,7 +19,7 @@ const SectionGift: React.FC = () => {
   // Height values for expansion
   const defaultHeight = 440
   const expandedHeight = 1100 // Increased to fit all content
-  const wishlistHeight = 2350 // Increased to fit all content
+  const wishlistHeight = 2425 // Increased to fit all content
 
   // Calculate the correct height based on states
   const getContentHeight = () => {
@@ -44,6 +44,10 @@ const SectionGift: React.FC = () => {
     [
       { name: 'rice-cooker', label: 'Rice Cooker' },
       { name: 'tv', label: 'Smart TV 32 inch' },
+    ],
+    [
+      { name: 'bantal', label: 'Bantal & Guling' },
+      { name: 'bed-cover', label: 'Sprei /+ Bedcover' },
     ],
     [
       { name: 'peralatan-masak', label: 'Peralatan Masak' },

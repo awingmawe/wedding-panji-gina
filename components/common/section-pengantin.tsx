@@ -181,7 +181,7 @@ const SectionPengantin: React.FC = () => {
           className="absolute right-[7%] bottom-[22%] z-[2] h-auto w-[55%]"
         >
           <Image
-            src={`${process.env.NEXT_PUBLIC_URL_IMAGE}asset-3.svg`}
+            src={`${process.env.NEXT_PUBLIC_URL_IMAGE}section-ilustrasi-gina.svg`}
             alt="gambar-gina"
             width={0}
             height={0}
@@ -199,7 +199,7 @@ const SectionPengantin: React.FC = () => {
           className="absolute bottom-[30%] left-[12%] z-[1] h-auto w-[55%]"
         >
           <Image
-            src={`${process.env.NEXT_PUBLIC_URL_IMAGE}asset-2.svg`}
+            src={`${process.env.NEXT_PUBLIC_URL_IMAGE}section-ilustrasi-panji.svg`}
             alt="gambar-panji"
             width={0}
             loading="lazy"
