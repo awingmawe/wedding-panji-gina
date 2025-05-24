@@ -8,6 +8,7 @@ import SectionGroom from '@/components/common/section-groom'
 import SectionHome from '@/components/common/section-home-with-loading'
 import SectionKonfirmasi from '@/components/common/section-konfirmasi'
 import SectionPengantin from '@/components/common/section-pengantin'
+import SectionPesan from '@/components/common/section-pesan'
 import SectionPhoto from '@/components/common/section-photo'
 import SectionStory from '@/components/common/section-story'
 import { Metadata } from 'next'
@@ -61,6 +62,8 @@ const Page: FC<PageProps> = async ({ params }) => {
       <SectionPhoto />
 
       <SectionGift />
+
+      <SectionPesan />
     </main>
   )
 }

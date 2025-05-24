@@ -137,3 +137,23 @@
   mask: radial-gradient(40px at 40px 40px, #0000 98%, #000) -40px -40px;
   background-color: #ddd3c8;
 }
+
+/* Custom scrollbar styles for the message container */
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 9999px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: #e8ded5;
+  border-radius: 9999px;
+  border: 2px solid white;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(207, 147, 95, 0.5);
+}
