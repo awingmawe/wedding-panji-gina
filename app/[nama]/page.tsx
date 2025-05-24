@@ -8,9 +8,11 @@ import SectionGroom from '@/components/common/section-groom'
 import SectionHome from '@/components/common/section-home-with-loading'
 import SectionKonfirmasi from '@/components/common/section-konfirmasi'
 import SectionPengantin from '@/components/common/section-pengantin'
+import SectionPenutup from '@/components/common/section-penutup'
 import SectionPesan from '@/components/common/section-pesan'
 import SectionPhoto from '@/components/common/section-photo'
 import SectionStory from '@/components/common/section-story'
+import SectionVideo from '@/components/common/section-video'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { FC } from 'react'
@@ -61,9 +63,13 @@ const Page: FC<PageProps> = async ({ params }) => {
 
       <SectionPhoto />
 
+      <SectionVideo />
+
       <SectionGift />
 
       <SectionPesan />
+
+      <SectionPenutup />
     </main>
   )
 }

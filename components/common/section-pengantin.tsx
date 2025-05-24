@@ -155,11 +155,11 @@ const SectionPengantin: React.FC = () => {
         </motion.div>
 
         <motion.div
-          initial={{ bottom: -20, opacity: 0 }}
-          whileInView={{ bottom: 25, opacity: 1 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: false, amount: 0.5 }}
           transition={{ duration: 0.4, ease: 'easeOut', delay: 0.8 }}
-          className="absolute z-11 h-auto w-full"
+          className="absolute bottom-10 z-11 h-auto w-full"
         >
           <Image
             src={`${process.env.NEXT_PUBLIC_URL_IMAGE}section-ilustrasi-nama.svg`}

@@ -301,7 +301,7 @@ const SectionCountdown: React.FC = () => {
                 width={0}
                 height={0}
                 sizes="100vw"
-                className="mx-auto h-auto w-[75%]"
+                className="mx-auto h-auto w-[70%]"
                 loading="lazy"
               />
             </motion.div>

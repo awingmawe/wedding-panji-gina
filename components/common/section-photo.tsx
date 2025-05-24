@@ -2,7 +2,6 @@
 
 import Flower1 from '@/components/assets/images/section-photo/flower-1.svg'
 import Flower2 from '@/components/assets/images/section-photo/flower-2.svg'
-import BgFrame from '@/components/assets/images/section-photo/frame-section-photo.svg'
 import TextPotrait from '@/components/assets/images/section-photo/text-potrait-of-us.svg'
 import type { CarouselApi } from '@/components/ui/carousel'
 import {
@@ -163,7 +162,7 @@ const SectionPhoto = () => {
           />
         </motion.div>
         <div className="relative z-10 aspect-16/9 h-auto w-full">
-          <div className="absolute h-auto w-full">
+          {/* <div className="absolute h-auto w-full">
             <Image
               src={BgFrame}
               alt="section-photo-frame"
@@ -176,7 +175,7 @@ const SectionPhoto = () => {
             <div className="absolute right-8 bottom-2 rounded px-2 py-1 text-xs text-black">
               {selectedImageIndex + 1} / {photos.length}
             </div>
-          </div>
+          </div> */}
           <div className="absolute -top-15 left-20 h-auto w-fit">
             <Image
               src={TextPotrait}
