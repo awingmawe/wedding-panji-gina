@@ -7,6 +7,7 @@ import SectionGift from '@/components/common/section-gift'
 import SectionGroom from '@/components/common/section-groom'
 import SectionHome from '@/components/common/section-home-with-loading'
 import SectionKonfirmasi from '@/components/common/section-konfirmasi'
+import SectionMusic from '@/components/common/section-music'
 import SectionPengantin from '@/components/common/section-pengantin'
 import SectionPenutup from '@/components/common/section-penutup'
 import SectionPesan from '@/components/common/section-pesan'
@@ -41,6 +42,8 @@ const Page: FC<PageProps> = async ({ params }) => {
 
   return (
     <main className="container min-h-[100dvh] overflow-x-hidden">
+      <SectionMusic />
+
       <SectionHome name={nama} />
 
       <SectionPengantin />
