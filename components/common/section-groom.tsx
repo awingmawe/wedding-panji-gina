@@ -36,7 +36,7 @@ const SectionGroom: React.FC = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              transition={{ duration: 0.8 }}
               viewport={{ once: false }}
             >
               <Image
@@ -52,7 +52,7 @@ const SectionGroom: React.FC = () => {
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              transition={{ duration: 0.8 }}
               viewport={{ once: false }}
             >
               <Image
@@ -68,7 +68,7 @@ const SectionGroom: React.FC = () => {
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
+              transition={{ duration: 0.8 }}
               viewport={{ once: false }}
             >
               <Image
@@ -85,7 +85,7 @@ const SectionGroom: React.FC = () => {
               className="mx-auto flex w-full max-w-[300px] flex-col items-center justify-center rounded-xl border-1 border-[#BE997C] bg-[#B66F54] p-2"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
+              transition={{ duration: 0.8 }}
               viewport={{ once: false }}
             >
               <p className="text-xs text-black">Putra Pertama dari</p>
@@ -99,7 +99,7 @@ const SectionGroom: React.FC = () => {
               target="_blank"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 1 }}
+              transition={{ duration: 0.8 }}
               viewport={{ once: false }}
             >
               @panjinrr

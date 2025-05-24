@@ -70,14 +70,6 @@ export const InvitationProvider: React.FC<{ children: React.ReactNode }> = ({
         smoothScrollTo(sectionPengantin, 1500)
       }
     }, 3500)
-
-    // Play music if you have background music
-    const audioElement = document.getElementById('bgMusic') as HTMLAudioElement
-    if (audioElement) {
-      audioElement
-        .play()
-        .catch((error) => console.log('Audio autoplay was prevented:', error))
-    }
   }
 
   // Force scroll to top on page load/reload and disable scrolling initially

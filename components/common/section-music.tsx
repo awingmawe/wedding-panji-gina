@@ -48,7 +48,6 @@ export default function FloatingAudioButton() {
       <Button
         onClick={togglePlay}
         variant="default"
-        id="bgMusic"
         className="rounded-full p-4 shadow-lg"
       >
         {isPlaying ? <PauseIcon /> : <PlayIcon />}

@@ -59,7 +59,7 @@ const SectionVideo: React.FC = () => {
           />
           <div className="absolute top-2.5 left-1/2 h-[250px] w-full max-w-[375px] min-w-[280px] -translate-x-1/2 rounded-lg px-2.5 py-2.5 max-[400px]:top-2.5 max-[400px]:h-[57vw] max-[400px]:px-8">
             <iframe
-              src="https://www.youtube.com/embed/4I-BUN-swrA?loop=1?controls=1&rel=0&mute=1&loop=1&playsinline=1&modestbranding=0&autoplay=1&enablejsapi=1"
+              src="https://www.youtube.com/embed/4I-BUN-swrA?loop=1?controls=1&rel=0&mute=0&loop=1&playsinline=1&modestbranding=0&autoplay=0&enablejsapi=1"
               title="YouTube video player"
               allow="autoplay;  gyroscope; picture-in-picture; web-share"
               referrerPolicy="strict-origin-when-cross-origin"

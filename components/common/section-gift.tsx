@@ -198,7 +198,7 @@ const SectionGift: React.FC = () => {
                             </div>
                             <div className="flex flex-col gap-1">
                               <p className="text-xs text-[#8E7C81]">
-                                13000229xxx
+                                1300022969938
                               </p>
                               <p className="text-xs text-[#8E7C81]">
                                 a.n Panji Nur Rahman Rahim
@@ -246,7 +246,7 @@ const SectionGift: React.FC = () => {
                             </div>
                             <div className="flex flex-col gap-1">
                               <p className="text-xs text-[#8E7C81]">
-                                4380255xxx
+                                4380255346
                               </p>
                               <p className="text-xs text-[#8E7C81]">
                                 a.n Gina Ghaisani
