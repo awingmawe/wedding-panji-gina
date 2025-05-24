@@ -55,11 +55,11 @@ const SectionVideo: React.FC = () => {
             width={0}
             height={0}
             loading="lazy"
-            className="h-auto w-full"
+            className="mx-auto h-auto w-[90%]"
           />
-          <div className="absolute -bottom-10 left-1/2 h-[270px] w-full max-w-[400px] min-w-[280px] -translate-x-1/2 rounded-lg max-[400px]:top-[2vw]">
+          <div className="absolute top-2.5 left-1/2 h-[250px] w-full max-w-[375px] min-w-[280px] -translate-x-1/2 rounded-lg px-2.5 py-2.5 max-[400px]:top-2.5 max-[400px]:h-[57vw] max-[400px]:px-8">
             <iframe
-              src="https://www.youtube.com/embed/4I-BUN-swrA?si=xDVyxa_wawLhSMDG&amp;autoplay=1"
+              src="https://www.youtube.com/embed/4I-BUN-swrA?loop=1?controls=1&rel=0&mute=1&loop=1&playsinline=1&modestbranding=0&autoplay=1&enablejsapi=1"
               title="YouTube video player"
               allow="autoplay;  gyroscope; picture-in-picture; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
@@ -68,7 +68,7 @@ const SectionVideo: React.FC = () => {
             ></iframe>
           </div>
           <motion.div
-            className="absolute right-0 -bottom-60 z-11 max-[400]:-bottom-20"
+            className="absolute right-0 -bottom-60 z-11 max-[400]:-bottom-30"
             variants={flipVariant}
             initial="hidden"
             whileInView="visible"
@@ -86,7 +86,7 @@ const SectionVideo: React.FC = () => {
             />
           </motion.div>
           <motion.div
-            className="absolute -right-2 -bottom-50 h-auto max-[400px]:-bottom-10"
+            className="absolute -right-2 -bottom-50 h-auto max-[400px]:-bottom-25"
             variants={flipVariant}
             initial="hidden"
             whileInView="visible"
@@ -104,7 +104,7 @@ const SectionVideo: React.FC = () => {
             />
           </motion.div>
           <motion.div
-            className="absolute -bottom-60 -left-5 z-11 h-auto max-[400px]:-bottom-30"
+            className="absolute -bottom-60 -left-5 z-11 h-auto max-[400px]:-bottom-35"
             variants={flipVariant}
             initial="hidden"
             whileInView="visible"
@@ -122,7 +122,7 @@ const SectionVideo: React.FC = () => {
             />
           </motion.div>
           <motion.div
-            className="absolute -left-10 h-auto max-[400px]:-bottom-20"
+            className="absolute -left-10 h-auto max-[400px]:-bottom-30"
             variants={flipVariant}
             initial="hidden"
             whileInView="visible"

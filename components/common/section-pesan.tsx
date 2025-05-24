@@ -108,7 +108,7 @@ const SectionPesan: React.FC = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Nama Kamu..."
-                  className="h-9 w-[65%] rounded-lg bg-white text-sm focus-within:outline-none focus:border-0 focus:ring-0 focus:outline-none focus-visible:outline-0 max-[400px]:h-7  max-[400px]:text-[10px]"
+                  className="h-9 w-[65%] rounded-lg border-1 border-[#558384] bg-[#E9CBA6]/50 text-sm focus-within:outline-none focus:border-0 focus:ring-0 focus:outline-none focus-visible:outline-0 max-[400px]:h-7  max-[400px]:text-[10px]"
                   required
                 />
                 <Textarea
@@ -116,7 +116,7 @@ const SectionPesan: React.FC = () => {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Tulis ucapan & doa buat kita:)"
-                  className="h-[100px] resize-none rounded-lg bg-white text-sm max-[400px]:h-[20vw] max-[400px]:text-[10px]"
+                  className="h-[100px] resize-none rounded-lg border-1 border-[#558384] bg-[#E9CBA6]/50 text-sm max-[400px]:h-[20vw] max-[400px]:text-[10px]"
                   required
                 />
                 {/* Submit Button */}
@@ -146,7 +146,7 @@ const SectionPesan: React.FC = () => {
 
             {/* Messages Container - positioned over the message image */}
             <div
-              className={`scrollbar-custom scrollbar-thin scrollbar-thumb-[#CF935F]/30 scrollbar-thumb-rounded scrollbar-track-transparent absolute top-25 z-10 px-5 max-[400px]:top-20 ${messages.length === 0 ? 'flex h-full items-center justify-center' : 'h-full'} left-1/2 max-h-[330px] w-[280px] -translate-x-1/2 overflow-x-hidden overflow-y-auto rounded-lg bg-white max-[450px]:h-[71vw] max-[450px]:w-[61vw] max-[400px]:h-[75vw]`}
+              className={`scrollbar-custom scrollbar-thin scrollbar-thumb-[#CF935F]/30 scrollbar-thumb-rounded scrollbar-track-transparent absolute top-25 z-10 px-2 py-3 max-[400px]:top-20 ${messages.length === 0 ? 'flex h-full items-center justify-center' : 'h-full'} left-[49%] max-h-[330px] w-[280px] -translate-x-1/2 overflow-x-hidden overflow-y-auto rounded-lg border-1 border-[#DCA394] bg-[#E9E2D8] max-[450px]:h-[71vw] max-[450px]:w-[61vw] max-[400px]:h-[75vw]`}
             >
               <AnimatePresence>
                 {messages.length === 0 ? (

@@ -13,6 +13,7 @@ import Flower7 from '@/components/assets/images/section-konfirmasi/flower-7.svg'
 import Flower8 from '@/components/assets/images/section-konfirmasi/flower-8.svg'
 import Flower9 from '@/components/assets/images/section-konfirmasi/flower-9.svg'
 import FrameSectionKonfirmasi from '@/components/assets/images/section-konfirmasi/frame-section-konfirmasi.svg'
+import TextKonfirmasi from '@/components/assets/images/section-konfirmasi/text-section-konfirmasi.svg'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -141,6 +142,23 @@ const SectionKonfirmasi: React.FC = () => {
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             loading="lazy"
           />
+          <motion.div
+            initial={{ opacity: 0 }}
+            viewport={{ once: false, amount: 0.5 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className="absolute top-0 left-1/2 h-auto w-full -translate-x-1/2"
+          >
+            <Image
+              src={TextKonfirmasi}
+              alt="section-doa-text"
+              width={0}
+              height={0}
+              loading="lazy"
+              sizes="100vw"
+              className="mx-auto h-auto "
+            />
+          </motion.div>
 
           {/* Flower Decorations with Flip Animation */}
           {/* Left side flowers */}
