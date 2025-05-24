@@ -71,7 +71,7 @@ export default function SectionHome() {
         width={0}
         height={0}
         loading="lazy"
-        className="h-screen w-full"
+        className="h-[100dvh] w-full"
       />
 
       {/* KEY IMAGE - no animation */}

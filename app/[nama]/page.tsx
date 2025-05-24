@@ -40,7 +40,7 @@ const Page: FC<PageProps> = async ({ params }) => {
   // const decodedNama = decodeURIComponent(nama)
 
   return (
-    <main className="container min-h-screen overflow-x-hidden">
+    <main className="container min-h-[100dvh] overflow-x-hidden">
       <SectionHome name={nama} />
 
       <SectionPengantin />

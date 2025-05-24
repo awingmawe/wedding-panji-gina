@@ -203,7 +203,7 @@ export default function SectionHome({ name }: { name: string }) {
           width={0}
           height={0}
           loading="lazy"
-          className="h-screen w-full"
+          className="h-[100dvh] w-full"
         />
 
         {/* KEY IMAGE with simple fade out */}

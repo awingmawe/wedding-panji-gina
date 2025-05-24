@@ -23,7 +23,7 @@ const CardOpenWedding: React.FC<{ name: string; loading: boolean }> = ({
         width={0}
         height={0}
         sizes="100vw"
-        className="h-screen w-full"
+        className="h-[100dvh] w-full"
       />
       <FlowersCardWedding />
       <div className="absolute top-1/2 left-1/2 z-21 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-8">
