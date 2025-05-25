@@ -38,3 +38,28 @@ export interface ApiResponse<T> {
   error?: string
   message?: string
 }
+
+// Add this to your useApi.ts file
+
+export interface AttendanceStats {
+  totalTamu: number
+  totalResponses: number
+  breakdown: {
+    akad: {
+      count: number
+      totalTamu: number
+    }
+    resepsi: {
+      count: number
+      totalTamu: number
+    }
+    akadResepsi: {
+      count: number
+      totalTamu: number
+    }
+    tidakHadir: {
+      count: number
+      totalTamu: number
+    }
+  }
+}

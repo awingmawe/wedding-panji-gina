@@ -1,7 +1,76 @@
-import { useState, useEffect } from 'react'
-import { Guest, Attendance, Message } from '@/types'
+import { useState, useEffect, useCallback } from 'react'
+import { Guest, Attendance, Message, AttendanceStats } from '@/types'
 
-// Generic API hook
+// Generic API hook with pagination
+function useApiWithPagination<T>(url: string, pageSize: number = 20) {
+  const [data, setData] = useState<T[]>([])
+  const [loading, setLoading] = useState(true)
+  const [loadingMore, setLoadingMore] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [hasMore, setHasMore] = useState(true)
+  const [page, setPage] = useState(1)
+
+  const fetchData = useCallback(
+    async (pageNum: number, reset: boolean = false) => {
+      try {
+        if (pageNum === 1) {
+          setLoading(true)
+        } else {
+          setLoadingMore(true)
+        }
+
+        const response = await fetch(`${url}?page=${pageNum}&limit=${pageSize}`)
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+        const result = await response.json()
+
+        // For now, since your API doesn't support pagination, we'll simulate it
+        // In a real scenario, your API would return { data: T[], hasMore: boolean, total: number }
+        const allData = Array.isArray(result) ? result : []
+        const startIndex = (pageNum - 1) * pageSize
+        const endIndex = startIndex + pageSize
+        const pageData = allData.slice(startIndex, endIndex)
+
+        if (reset || pageNum === 1) {
+          setData(pageData)
+        } else {
+          setData((prev) => [...prev, ...pageData])
+        }
+
+        setHasMore(endIndex < allData.length)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred')
+      } finally {
+        setLoading(false)
+        setLoadingMore(false)
+      }
+    },
+    [url, pageSize]
+  )
+
+  const loadMore = useCallback(() => {
+    if (!loadingMore && hasMore) {
+      const nextPage = page + 1
+      setPage(nextPage)
+      fetchData(nextPage)
+    }
+  }, [fetchData, loadingMore, hasMore, page])
+
+  const refetch = useCallback(() => {
+    setPage(1)
+    setHasMore(true)
+    fetchData(1, true)
+  }, [fetchData])
+
+  useEffect(() => {
+    fetchData(1, true)
+  }, [fetchData])
+
+  return { data, loading, loadingMore, error, hasMore, loadMore, refetch }
+}
+
+// Regular API hook for non-paginated data
 function useApi<T>(url: string, options?: RequestInit) {
   const [data, setData] = useState<T | null>(null)
   const [loading, setLoading] = useState(true)
@@ -25,32 +94,65 @@ function useApi<T>(url: string, options?: RequestInit) {
     }
 
     fetchData()
-  }, [options, url])
+  }, [url, options])
 
-  return { data, loading, error, refetch: () => fetchData() }
+  const refetch = async () => {
+    try {
+      setLoading(true)
+      const response = await fetch(url, options)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      const result = await response.json()
+      setData(result)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return { data, loading, error, refetch }
 }
 
-// Guest API hooks
+// Guest API hooks with pagination
 export function useGuests() {
-  return useApi<Guest[]>('/api/guests')
+  return useApi<Guest[]>('/api/guest')
+}
+
+export function useGuestsPaginated(pageSize: number = 20) {
+  return useApiWithPagination<Guest>('/api/guest', pageSize)
 }
 
 export function useGuest(id: string) {
-  return useApi<Guest>(`/api/guests/${id}`)
+  return useApi<Guest>(`/api/guest/${id}`)
 }
 
 export function useGuestByNickname(nickname: string) {
-  return useApi<Guest>(`/api/guests/nickname/${nickname}`)
+  return useApi<Guest>(`/api/guest/nickname/${nickname}`)
 }
 
-// Attendance API hooks
+// Attendance API hooks with pagination
 export function useAttendances() {
   return useApi<Attendance[]>('/api/attendance')
 }
 
-// Messages API hooks
+export function useAttendancesPaginated(pageSize: number = 20) {
+  return useApiWithPagination<Attendance>('/api/attendance', pageSize)
+}
+
+// Messages API hooks with pagination
 export function useMessages() {
   return useApi<Message[]>('/api/messages')
+}
+
+// Attendance Stats API hook
+export function useAttendanceStats() {
+  return useApi<AttendanceStats>('/api/attendance?stats=true')
+}
+
+export function useMessagesPaginated(pageSize: number = 20) {
+  return useApiWithPagination<Message>('/api/messages', pageSize)
 }
 
 // API action functions
@@ -93,8 +195,4 @@ export async function createMessage(data: {
   }
 
   return response.json()
-}
-
-function fetchData() {
-  throw new Error('Function not implemented.')
 }
