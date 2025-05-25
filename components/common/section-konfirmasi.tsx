@@ -463,7 +463,7 @@ const SectionKonfirmasi: React.FC<SectionKonfirmasiProps> = ({ guest }) => {
                             setGuestCount(parseInt(value).toString())
                           }
                         }}
-                        className="h-5 w-[100px] appearance-none rounded-full border-none bg-[#E5E5E5] text-center text-xs text-[#6B3D49] focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="h-5 w-[100px] [appearance:textfield] rounded-full border-none bg-[#E5E5E5] text-center text-xs text-[#6B3D49] focus-visible:ring-0 focus-visible:ring-offset-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                         max={20}
                         inputMode="numeric"
                       />
