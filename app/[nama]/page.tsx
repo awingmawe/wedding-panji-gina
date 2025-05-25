@@ -35,10 +35,10 @@ export async function generateMetadata({
     const guest = await prisma.guest.findUnique({
       where: { nickname: nama },
     })
-    const title = `Wedding Invitation for ${guest.nama} | Gina & Panji`
-    const description = `Personal wedding invitation for ${guest.nama} - Gina & Panji's Wedding`
 
     if (guest) {
+      const title = `Wedding Invitation for ${guest?.nama} | Gina & Panji`
+      const description = `Personal wedding invitation for ${guest?.nama} - Gina & Panji's Wedding`
       return {
         title: title,
         description: description,
