@@ -18,14 +18,22 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { createAttendance } from '@/hooks/useApi'
+import { Guest } from '@/types'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import React, { useState } from 'react'
+import { toast } from 'sonner'
 
-const SectionKonfirmasi: React.FC = () => {
+interface SectionKonfirmasiProps {
+  guest?: Guest | null
+}
+
+const SectionKonfirmasi: React.FC<SectionKonfirmasiProps> = ({ guest }) => {
   const [name, setName] = useState('')
   const [attendance, setAttendance] = useState('akad-dan-resepsi')
-  const [guestCount, setGuestCount] = useState(1)
+  const [guestCount, setGuestCount] = useState('1')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   // Flip animation variant for flowers
   const flipVariant = {
@@ -40,24 +48,48 @@ const SectionKonfirmasi: React.FC = () => {
     }),
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log({
-      name,
-      attendance,
-      guestCount,
-    })
+    if (!guest) {
+      toast.error('Guest information not found')
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      await createAttendance({
+        guestId: guest.id,
+        nama: name || guest.nama,
+        konfirmasi:
+          attendance === 'akad'
+            ? 'Akad'
+            : attendance === 'resepsi'
+              ? 'Resepsi'
+              : attendance === 'akad-dan-resepsi'
+                ? 'Akad dan Resepsi'
+                : 'Maaf, Saya belum bisa hadir',
+        jumlahTamu: parseInt(guestCount),
+      })
+
+      toast.success('Konfirmasi berhasil dikirim!')
+    } catch (error) {
+      toast.error('Gagal mengirim konfirmasi. Silakan coba lagi.')
+      console.error('Error submitting attendance:', error)
+    } finally {
+      setIsSubmitting(false)
+    }
     // Add your form submission logic here
   }
 
   const decrementGuests = () => {
-    if (guestCount > 1) {
-      setGuestCount(guestCount - 1)
+    if (parseInt(guestCount) > 1) {
+      setGuestCount((parseInt(guestCount) - 1).toString())
     }
   }
 
   const incrementGuests = () => {
-    setGuestCount(guestCount + 1)
+    setGuestCount((parseInt(guestCount) + 1).toString())
   }
 
   return (
@@ -422,12 +454,18 @@ const SectionKonfirmasi: React.FC = () => {
                     <div className="mx-2 flex-1">
                       <Input
                         type="number"
-                        value={guestCount}
-                        onChange={(e) =>
-                          setGuestCount(parseInt(e.target.value) || 1)
-                        }
-                        className="h-5 w-[100px] rounded-full border-none bg-[#E5E5E5] text-center text-xs text-[#6B3D49] focus-visible:ring-0 focus-visible:ring-offset-0"
-                        min="1"
+                        value={guestCount ?? ''}
+                        onChange={(e) => {
+                          const value = e.target.value
+                          if (parseInt(value) > 20) {
+                            setGuestCount('20')
+                          } else {
+                            setGuestCount(parseInt(value).toString())
+                          }
+                        }}
+                        className="h-5 w-[100px] appearance-none rounded-full border-none bg-[#E5E5E5] text-center text-xs text-[#6B3D49] focus-visible:ring-0 focus-visible:ring-offset-0"
+                        max={20}
+                        inputMode="numeric"
                       />
                     </div>
                     <Button
@@ -445,9 +483,10 @@ const SectionKonfirmasi: React.FC = () => {
               {/* Submit Button */}
               <Button
                 type="submit"
+                disabled={isSubmitting}
                 className="mx-auto mt-5 h-7.5 w-1/2 rounded-full border-1 border-[#DD73A1] bg-[#CF935F] text-white uppercase transition-all duration-300 hover:bg-[#b37b48]"
               >
-                SUBMIT
+                {isSubmitting ? 'Mengirim...' : 'SUBMIT'}
               </Button>
             </form>
           </motion.div>
