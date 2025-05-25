@@ -1,6 +1,4 @@
 {
-  "buildCommand": "prisma generate && prisma db deploy && tsx prisma/seed.ts && yarn build",
-  "installCommand": "yarn install",
   "functions": {
     "app/api/**/*.ts": {
       "maxDuration": 10
