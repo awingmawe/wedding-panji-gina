@@ -35,11 +35,25 @@ export async function generateMetadata({
     const guest = await prisma.guest.findUnique({
       where: { nickname: nama },
     })
+    const title = `Wedding Invitation for ${guest.nama} | Gina & Panji`
+    const description = `Personal wedding invitation for ${guest.nama} - Gina & Panji's Wedding`
 
     if (guest) {
       return {
-        title: `Wedding Invitation for ${guest.nama} | Gina & Panji`,
-        description: `Personal wedding invitation for ${guest.nama} - Gina & Panji's Wedding`,
+        title: title,
+        description: description,
+        openGraph: {
+          title: title,
+          description: description,
+          type: 'website',
+          images: ['/thumbnail.jpeg'],
+        },
+        twitter: {
+          title: title,
+          description: description,
+          card: 'summary_large_image',
+          images: ['/thumbnail.jpeg'],
+        },
       }
     }
   } catch (error) {
@@ -49,6 +63,18 @@ export async function generateMetadata({
   return {
     title: 'Wedding Invitation | Gina & Panji',
     description: 'Wedding invitation for Gina & Panji',
+    openGraph: {
+      title: 'Wedding Invitation | Gina & Panji',
+      description: 'Wedding invitation for Gina & Panji',
+      type: 'website',
+      images: ['/thumbnail.jpeg'],
+    },
+    twitter: {
+      title: 'Wedding Invitation | Gina & Panji',
+      description: 'Wedding invitation for Gina & Panji',
+      card: 'summary_large_image',
+      images: ['/thumbnail.jpeg'],
+    },
   }
 }
 

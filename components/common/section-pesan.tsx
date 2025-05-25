@@ -23,11 +23,10 @@ interface SectionPesanProps {
 }
 
 const SectionPesan: React.FC<SectionPesanProps> = ({ guest }) => {
-  const [name, setName] = useState(guest?.nama || '')
+  const [name, setName] = useState('')
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState<Message[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
 
   // Avatar options
   const avatars = [Ciyo, Gumiho, Kuma, Kyo, Spike]
@@ -42,9 +41,13 @@ const SectionPesan: React.FC<SectionPesanProps> = ({ guest }) => {
     fetchMessages()
   }, [])
 
+  useEffect(() => {
+    const interval = setInterval(fetchMessages, 5000)
+    return () => clearInterval(interval)
+  }, [])
+
   const fetchMessages = async () => {
     try {
-      setIsLoading(true)
       const response = await fetch('/api/messages')
       if (response.ok) {
         const data = await response.json()
@@ -52,8 +55,6 @@ const SectionPesan: React.FC<SectionPesanProps> = ({ guest }) => {
       }
     } catch (error) {
       console.error('Error fetching messages:', error)
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -181,22 +182,13 @@ const SectionPesan: React.FC<SectionPesanProps> = ({ guest }) => {
             {/* Messages Container - positioned over the message image */}
             <div
               className={`scrollbar-custom scrollbar-thin scrollbar-thumb-[#CF935F]/30 scrollbar-thumb-rounded scrollbar-track-transparent absolute top-25 z-10 px-2 py-3 max-[400px]:top-20 ${
-                messages.length === 0 && !isLoading
+                messages.length === 0
                   ? 'flex h-full items-center justify-center'
                   : 'h-full'
               } left-[49%] max-h-[330px] w-[280px] -translate-x-1/2 overflow-x-hidden overflow-y-auto rounded-lg border-1 border-[#DCA394] bg-[#E9E2D8] max-[450px]:h-[71vw] max-[450px]:w-[61vw] max-[400px]:h-[75vw]`}
             >
               <AnimatePresence>
-                {isLoading ? (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="py-8 text-center"
-                  >
-                    <div className="mx-auto mb-2 h-6 w-6 animate-spin rounded-full border-b-2 border-[#CF935F]"></div>
-                    <p className="text-xs text-[#606161]/60">Memuat pesan...</p>
-                  </motion.div>
-                ) : messages.length === 0 ? (
+                {messages.length === 0 ? (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}

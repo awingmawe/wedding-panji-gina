@@ -70,20 +70,30 @@ export default function AdminDashboard() {
 
   const [searchTerm, setSearchTerm] = useState('')
 
-  // Filter guests based on search term
+  // Filter guests based on search term - use allGuests for search, guests for pagination
   const filteredGuests = useMemo(() => {
-    if (!searchTerm) return guests
-    return guests.filter(
+    if (!searchTerm) {
+      // When no search term, return paginated guests
+      return guests
+    }
+
+    // When searching, filter from all guests
+    if (!allGuests) return []
+
+    return allGuests.filter(
       (guest) =>
         guest.nama.toLowerCase().includes(searchTerm.toLowerCase()) ||
         guest.nickname.toLowerCase().includes(searchTerm.toLowerCase())
     )
-  }, [guests, searchTerm])
+  }, [allGuests, guests, searchTerm])
+
+  // Determine if we should show pagination controls
+  const isSearchActive = searchTerm.trim() !== ''
 
   // Infinite scroll hooks
   const guestsScroll = useInfiniteScroll(
     guestsLoadingMore,
-    guestsHasMore,
+    guestsHasMore && !isSearchActive, // Disable infinite scroll when searching
     loadMoreGuests
   )
   const attendancesScroll = useInfiniteScroll(
@@ -177,31 +187,40 @@ export default function AdminDashboard() {
       <Tabs defaultValue="guests" className="w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="guests" className="cursor-pointer">
-            Guests ({allGuests?.length})
+            Tamu ({allGuests?.length})
           </TabsTrigger>
           <TabsTrigger value="attendances" className="cursor-pointer">
             RSVP ({attendances.length})
           </TabsTrigger>
           <TabsTrigger value="messages" className="cursor-pointer">
-            Messages ({messages.length})
+            Pesan ({messages.length})
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="guests" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Guest List</CardTitle>
-              <Input
-                placeholder="Cari Tamu..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="max-w-sm rounded-lg border-1 border-gray-300"
-              />
+              <CardTitle>Daftar Tamu</CardTitle>
+              <div className="flex items-center gap-2">
+                <Input
+                  placeholder="Cari Tamu..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="max-w-sm rounded-lg border-1 border-gray-300"
+                />
+                {isSearchActive && (
+                  <span className="text-sm text-gray-500">
+                    {filteredGuests.length} hasil
+                  </span>
+                )}
+              </div>
             </CardHeader>
             <CardContent className="p-0">
               <div
                 className="h-[400px] overflow-y-auto px-6 pb-6"
-                onScroll={guestsScroll.handleScroll}
+                onScroll={
+                  !isSearchActive ? guestsScroll.handleScroll : undefined
+                }
               >
                 {filteredGuests.length === 0 ? (
                   <div className="py-8 text-center">
@@ -219,37 +238,54 @@ export default function AdminDashboard() {
                         className="flex items-center justify-between rounded-lg border p-3"
                       >
                         <h4 className="font-medium">{guest.nama}</h4>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="cursor-pointer"
-                          onClick={() => {
-                            navigator.clipboard.writeText(
-                              `Assalamu'alaikum Wr. Wb.\n\nDengan penuh rasa syukur, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada acara pernikahan kami:\n\nGina & Panji\n\nMerupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir pada hari bahagia kami.\n\nBerikut kami lampirkan undangan digitalnya:\n\nLink Undangan: ${window.location.origin}/${guest.nickname}\n\nAtas kehadiran dan doa restunya, kami ucapkan terima kasih.\n\nWassalamu'alaikum Wr. Wb.\nSalam hangat,\nGina & Panji`
-                            )
-                            toast.success('Link berhasil disalin!')
-                          }}
-                        >
-                          Copy Link
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button
+                            variant="outline"
+                            className="cursor-pointer"
+                            size="sm"
+                            onClick={() =>
+                              window.open(
+                                `${window.location.origin}/${guest.nickname}`,
+                                '_blank'
+                              )
+                            }
+                          >
+                            Lihat Undangan
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="cursor-pointer"
+                            onClick={() => {
+                              navigator.clipboard.writeText(
+                                `Assalamu'alaikum Wr. Wb.\n\nDengan penuh rasa syukur, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada acara pernikahan kami:\n\nGina & Panji\n\nMerupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir pada hari bahagia kami.\n\nBerikut kami lampirkan undangan digitalnya:\n\nLink Undangan: ${window.location.origin}/${guest.nickname}\n\nAtas kehadiran dan doa restunya, kami ucapkan terima kasih.\n\nWassalamu'alaikum Wr. Wb.\nSalam hangat,\nGina & Panji`
+                              )
+                              toast.success('Link berhasil disalin!')
+                            }}
+                          >
+                            Copy Link
+                          </Button>
+                        </div>
                       </div>
                     ))}
 
-                    {/* Loading indicator for infinite scroll */}
-                    {guestsLoadingMore && (
+                    {/* Loading indicator for infinite scroll - only show when not searching */}
+                    {!isSearchActive && guestsLoadingMore && (
                       <div className="py-4 text-center">
                         <div className="mx-auto h-6 w-6 animate-spin rounded-full border-b-2 border-[#CF935F]"></div>
                       </div>
                     )}
 
-                    {/* End of list indicator */}
-                    {!guestsHasMore && filteredGuests.length > 0 && (
-                      <div className="py-4 text-center">
-                        <p className="text-sm text-gray-400">
-                          No more guests to load
-                        </p>
-                      </div>
-                    )}
+                    {/* End of list indicator - only show when not searching */}
+                    {!isSearchActive &&
+                      !guestsHasMore &&
+                      filteredGuests.length > 0 && (
+                        <div className="py-4 text-center">
+                          <p className="text-sm text-gray-400">
+                            Tidak ada lagi tamu yang dimuat
+                          </p>
+                        </div>
+                      )}
                   </div>
                 )}
               </div>
@@ -260,7 +296,7 @@ export default function AdminDashboard() {
         <TabsContent value="attendances" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>RSVP Responses</CardTitle>
+              <CardTitle>RSVP Responden</CardTitle>
             </CardHeader>
             <CardContent>
               <Tabs defaultValue="all" className="h-fit w-full">
@@ -301,7 +337,9 @@ export default function AdminDashboard() {
                   >
                     {attendances.length === 0 ? (
                       <div className="py-8 text-center">
-                        <p className="text-gray-500">No RSVP responses yet.</p>
+                        <p className="text-gray-500">
+                          Belum ada RSVP responden.
+                        </p>
                       </div>
                     ) : (
                       <div className="space-y-2">
@@ -336,7 +374,7 @@ export default function AdminDashboard() {
                         {!attendancesHasMore && attendances.length > 0 && (
                           <div className="py-4 text-center">
                             <p className="text-sm text-gray-400">
-                              No more responses to load
+                              Tidak ada yang bisa dimuat lagi
                             </p>
                           </div>
                         )}
@@ -351,7 +389,7 @@ export default function AdminDashboard() {
                     {attendances.filter((a) => a.konfirmasi === 'Akad')
                       .length === 0 ? (
                       <div className="py-8 text-center">
-                        <p className="text-gray-500">No Akad responses yet.</p>
+                        <p className="text-gray-500">Belum ada akad.</p>
                       </div>
                     ) : (
                       <div className="space-y-2">
@@ -389,9 +427,7 @@ export default function AdminDashboard() {
                     {attendances.filter((a) => a.konfirmasi === 'Resepsi')
                       .length === 0 ? (
                       <div className="py-8 text-center">
-                        <p className="text-gray-500">
-                          No Resepsi responses yet.
-                        </p>
+                        <p className="text-gray-500">Belum ada resepsi.</p>
                       </div>
                     ) : (
                       <div className="space-y-2">
@@ -431,7 +467,7 @@ export default function AdminDashboard() {
                     ).length === 0 ? (
                       <div className="py-8 text-center">
                         <p className="text-gray-500">
-                          No Akad & Resepsi responses yet.
+                          Belum ada akad dan resepsi.
                         </p>
                       </div>
                     ) : (
@@ -472,7 +508,7 @@ export default function AdminDashboard() {
                     ).length === 0 ? (
                       <div className="py-8 text-center">
                         <p className="text-gray-500">
-                          No decline responses yet.
+                          Belum ada yang tidak hadir.
                         </p>
                       </div>
                     ) : (
@@ -515,7 +551,7 @@ export default function AdminDashboard() {
         <TabsContent value="messages" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Wedding Messages</CardTitle>
+              <CardTitle>Pesan Undangan</CardTitle>
             </CardHeader>
             <CardContent className="p-0">
               <div
@@ -524,7 +560,7 @@ export default function AdminDashboard() {
               >
                 {messages.length === 0 ? (
                   <div className="py-8 text-center">
-                    <p className="text-gray-500">No messages yet.</p>
+                    <p className="text-gray-500">Belum ada pesan undangan.</p>
                   </div>
                 ) : (
                   <div className="space-y-4">
@@ -558,7 +594,7 @@ export default function AdminDashboard() {
                     {!messagesHasMore && messages.length > 0 && (
                       <div className="py-4 text-center">
                         <p className="text-sm text-gray-400">
-                          No more messages to load
+                          Tidak ada lagi pesan
                         </p>
                       </div>
                     )}
