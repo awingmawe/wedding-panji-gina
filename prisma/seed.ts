@@ -1,7 +1,5 @@
 import { PrismaClient } from '@prisma/client'
 import guestData from './guest.json'
-import attendanceData from './attendance.json'
-import messageData from './message.json'
 
 const prisma = new PrismaClient()
 
@@ -20,31 +18,6 @@ async function main() {
         id: guest.id,
         nama: guest.nama,
         nickname: guest.nickname,
-      },
-    })
-  }
-
-  // Seed attendances
-  for (const attendance of attendanceData) {
-    await prisma.attendance.create({
-      data: {
-        id: attendance.id,
-        guestId: attendance.guest_id,
-        nama: attendance.nama,
-        konfirmasi: attendance.konfirmasi,
-        jumlahTamu: attendance.jumlah_tamu,
-      },
-    })
-  }
-
-  // Seed messages
-  for (const message of messageData) {
-    await prisma.message.create({
-      data: {
-        id: message.id,
-        guestId: message.guest_id,
-        message: message.message,
-        name: message.name,
       },
     })
   }

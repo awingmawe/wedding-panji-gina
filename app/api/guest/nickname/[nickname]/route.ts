@@ -3,17 +3,19 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
 interface Params {
-  params: {
+  params: Promise<{
     nickname: string
-  }
+  }>
 }
 
 // GET guest by nickname (for invitation URLs)
 export async function GET(request: NextRequest, { params }: Params) {
   try {
+    const { nickname } = await params
+
     const guest = await prisma.guest.findUnique({
       where: {
-        nickname: params.nickname,
+        nickname: nickname,
       },
       include: {
         attendances: true,

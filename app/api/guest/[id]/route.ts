@@ -3,17 +3,19 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
 interface Params {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 // GET single guest
 export async function GET(request: NextRequest, { params }: Params) {
   try {
+    const { id } = await params
+
     const guest = await prisma.guest.findUnique({
       where: {
-        id: parseInt(params.id),
+        id: parseInt(id),
       },
       include: {
         attendances: true,
@@ -37,12 +39,13 @@ export async function GET(request: NextRequest, { params }: Params) {
 // PUT update guest
 export async function PUT(request: NextRequest, { params }: Params) {
   try {
+    const { id } = await params
     const body = await request.json()
     const { nama, nickname } = body
 
     const guest = await prisma.guest.update({
       where: {
-        id: parseInt(params.id),
+        id: parseInt(id),
       },
       data: {
         nama,
@@ -62,9 +65,11 @@ export async function PUT(request: NextRequest, { params }: Params) {
 // DELETE guest
 export async function DELETE(request: NextRequest, { params }: Params) {
   try {
+    const { id } = await params
+
     await prisma.guest.delete({
       where: {
-        id: parseInt(params.id),
+        id: parseInt(id),
       },
     })
 
