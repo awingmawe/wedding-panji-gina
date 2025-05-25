@@ -5,7 +5,8 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import BgFrame from '../assets/images/section-pesan/bg-section-pesan.svg'
 
 // Import avatar SVGs
@@ -14,20 +15,19 @@ import Gumiho from '@/components/assets/images/section-pesan/gumiho.svg'
 import Kuma from '@/components/assets/images/section-pesan/kuma.svg'
 import Kyo from '@/components/assets/images/section-pesan/kyo.svg'
 import Spike from '@/components/assets/images/section-pesan/spike.svg'
+import { createMessage } from '@/hooks/useApi'
+import { Guest, Message } from '@/types'
 
-interface Message {
-  id: string
-  name: string
-  message: string
-  avatar: typeof import('*.svg')
-  timestamp: Date
+interface SectionPesanProps {
+  guest: Guest
 }
 
-const SectionPesan: React.FC = () => {
-  const [name, setName] = useState('')
+const SectionPesan: React.FC<SectionPesanProps> = ({ guest }) => {
+  const [name, setName] = useState(guest?.nama || '')
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState<Message[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   // Avatar options
   const avatars = [Ciyo, Gumiho, Kuma, Kyo, Spike]
@@ -37,29 +37,63 @@ const SectionPesan: React.FC = () => {
     return avatars[Math.floor(Math.random() * avatars.length)]
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Fetch messages on component mount
+  useEffect(() => {
+    fetchMessages()
+  }, [])
+
+  const fetchMessages = async () => {
+    try {
+      setIsLoading(true)
+      const response = await fetch('/api/messages')
+      if (response.ok) {
+        const data = await response.json()
+        setMessages(data)
+      }
+    } catch (error) {
+      console.error('Error fetching messages:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!name.trim() || !message.trim()) return
+    if (!guest) {
+      toast.error('Guest information not found')
+      return
+    }
+
+    if (!message.trim()) {
+      toast.error('Please write a message')
+      return
+    }
 
     setIsSubmitting(true)
 
-    // Create new message
-    const newMessage: Message = {
-      id: Date.now().toString(),
-      name: name.trim(),
-      message: message.trim(),
-      avatar: getRandomAvatar(),
-      timestamp: new Date(),
+    try {
+      const response = await createMessage({
+        guestId: guest.id,
+        message: message.trim(),
+        name: name.trim() || guest.nama,
+      })
+
+      const newMessage = await response
+
+      // Add new message to the list
+      setMessages((prev) => [newMessage, ...prev])
+
+      // Reset form
+      setMessage('')
+      setName(guest.nama)
+      toast.success('Pesan berhasil dikirim!')
+    } catch (error) {
+      toast.error('Gagal mengirim pesan. Silakan coba lagi.')
+      console.error('Error submitting message:', error)
+    } finally {
+      setIsSubmitting(false)
     }
-
-    // Add to messages array
-    setMessages((prev) => [newMessage, ...prev])
-
-    // Reset form
-    setName('')
-    setMessage('')
-    setIsSubmitting(false)
   }
 
   return (
@@ -89,7 +123,7 @@ const SectionPesan: React.FC = () => {
               width={0}
               height={0}
               sizes="100vw"
-              className=" h-auto w-full"
+              className="h-auto w-full"
               loading="lazy"
             />
 
@@ -108,7 +142,7 @@ const SectionPesan: React.FC = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Nama Kamu..."
-                  className="h-9 w-[65%] rounded-lg border-1 border-[#558384] bg-[#E9CBA6]/50 text-sm focus-within:outline-none focus:border-0 focus:ring-0 focus:outline-none focus-visible:outline-0 max-[400px]:h-7  max-[400px]:text-[10px]"
+                  className="h-9 w-[65%] rounded-lg border-1 border-[#558384] bg-[#E9CBA6]/50 text-sm focus-within:outline-none focus:border-0 focus:ring-0 focus:outline-none focus-visible:outline-0 max-[400px]:h-7 max-[400px]:text-[10px]"
                   required
                 />
                 <Textarea
@@ -123,7 +157,7 @@ const SectionPesan: React.FC = () => {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="float-right flex h-fit w-1/2 rounded-lg border-1 border-[#E6D1B9] bg-[#C8B6A1] py-1 text-sm font-medium text-white uppercase transition-all duration-300 max-[400px]:h-[25px] max-[400px]:text-[10px]"
+                  className="float-right flex h-fit w-1/2 rounded-lg border-1 border-[#E6D1B9] bg-[#C8B6A1] py-1 text-sm font-medium text-white uppercase transition-all duration-300 disabled:opacity-50 max-[400px]:h-[25px] max-[400px]:text-[10px]"
                 >
                   {isSubmitting ? 'Mengirim...' : 'Kirim'}
                 </Button>
@@ -140,16 +174,29 @@ const SectionPesan: React.FC = () => {
               width={0}
               height={0}
               sizes="100vw"
-              className=" h-auto w-full"
+              className="h-auto w-full"
               loading="lazy"
             />
 
             {/* Messages Container - positioned over the message image */}
             <div
-              className={`scrollbar-custom scrollbar-thin scrollbar-thumb-[#CF935F]/30 scrollbar-thumb-rounded scrollbar-track-transparent absolute top-25 z-10 px-2 py-3 max-[400px]:top-20 ${messages.length === 0 ? 'flex h-full items-center justify-center' : 'h-full'} left-[49%] max-h-[330px] w-[280px] -translate-x-1/2 overflow-x-hidden overflow-y-auto rounded-lg border-1 border-[#DCA394] bg-[#E9E2D8] max-[450px]:h-[71vw] max-[450px]:w-[61vw] max-[400px]:h-[75vw]`}
+              className={`scrollbar-custom scrollbar-thin scrollbar-thumb-[#CF935F]/30 scrollbar-thumb-rounded scrollbar-track-transparent absolute top-25 z-10 px-2 py-3 max-[400px]:top-20 ${
+                messages.length === 0 && !isLoading
+                  ? 'flex h-full items-center justify-center'
+                  : 'h-full'
+              } left-[49%] max-h-[330px] w-[280px] -translate-x-1/2 overflow-x-hidden overflow-y-auto rounded-lg border-1 border-[#DCA394] bg-[#E9E2D8] max-[450px]:h-[71vw] max-[450px]:w-[61vw] max-[400px]:h-[75vw]`}
             >
               <AnimatePresence>
-                {messages.length === 0 ? (
+                {isLoading ? (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="py-8 text-center"
+                  >
+                    <div className="mx-auto mb-2 h-6 w-6 animate-spin rounded-full border-b-2 border-[#CF935F]"></div>
+                    <p className="text-xs text-[#606161]/60">Memuat pesan...</p>
+                  </motion.div>
+                ) : messages.length === 0 ? (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -175,7 +222,7 @@ const SectionPesan: React.FC = () => {
                           <div className="flex-shrink-0">
                             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#CF935F]/10 p-1">
                               <Image
-                                src={msg.avatar}
+                                src={getRandomAvatar()}
                                 alt={`${msg.name} avatar`}
                                 width={24}
                                 height={24}
@@ -191,7 +238,7 @@ const SectionPesan: React.FC = () => {
                                 {msg.name}
                               </h4>
                               <span className="text-[9px] text-[#606161]/50">
-                                {new Date(msg.timestamp).toLocaleTimeString(
+                                {new Date(msg.createdAt).toLocaleTimeString(
                                   'id-ID',
                                   {
                                     hour: '2-digit',

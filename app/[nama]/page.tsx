@@ -14,6 +14,7 @@ import SectionPesan from '@/components/common/section-pesan'
 import SectionPhoto from '@/components/common/section-photo'
 import SectionStory from '@/components/common/section-story'
 import SectionVideo from '@/components/common/section-video'
+import { prisma } from '@/lib/prisma'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { FC } from 'react'
@@ -25,9 +26,30 @@ interface PageProps {
   }>
 }
 
-export const metadata: Metadata = {
-  title: 'Wedding Invitation | Gina & Panji',
-  description: 'Wedding invitation for Gina & Panji',
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { nama } = await params
+
+  try {
+    const guest = await prisma.guest.findUnique({
+      where: { nickname: nama },
+    })
+
+    if (guest) {
+      return {
+        title: `Wedding Invitation for ${guest.nama} | Gina & Panji`,
+        description: `Personal wedding invitation for ${guest.nama} - Gina & Panji's Wedding`,
+      }
+    }
+  } catch (error) {
+    console.error('Error generating metadata:', error)
+  }
+
+  return {
+    title: 'Wedding Invitation | Gina & Panji',
+    description: 'Wedding invitation for Gina & Panji',
+  }
 }
 
 // The rest of your code remains the same
@@ -38,7 +60,15 @@ const Page: FC<PageProps> = async ({ params }) => {
     notFound()
   }
 
-  // const decodedNama = decodeURIComponent(nama)
+  // Fetch guest data by nickname using Prisma directly
+  const guest = await prisma.guest.findUnique({
+    where: { nickname: nama },
+  })
+
+  // If guest not found, show 404
+  if (!guest) {
+    notFound()
+  }
 
   return (
     <main className="container min-h-[100dvh] overflow-x-hidden">
@@ -60,7 +90,7 @@ const Page: FC<PageProps> = async ({ params }) => {
 
       <SectionAkad />
 
-      <SectionKonfirmasi />
+      <SectionKonfirmasi guest={guest} />
 
       <SectionAttire />
 
@@ -70,7 +100,7 @@ const Page: FC<PageProps> = async ({ params }) => {
 
       <SectionGift />
 
-      <SectionPesan />
+      <SectionPesan guest={guest} />
 
       <SectionPenutup />
     </main>

@@ -88,7 +88,9 @@ export const InvitationProvider: React.FC<{ children: React.ReactNode }> = ({
     }
 
     // Disable scrolling initially
-    document.body.style.overflow = 'hidden'
+    if (!window.location.pathname.includes('/admin')) {
+      document.body.style.overflow = 'hidden'
+    }
 
     // Enable scrolling when component unmounts
     return () => {
