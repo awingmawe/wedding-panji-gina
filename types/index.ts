@@ -27,6 +27,7 @@ export interface Message {
   id: number
   guestId: number
   message: string
+  avatar?: string
   name: string
   guest?: Guest
   createdAt: Date

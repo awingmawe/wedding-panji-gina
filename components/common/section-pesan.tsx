@@ -21,15 +21,13 @@ import { Guest, Message } from '@/types'
 interface SectionPesanProps {
   guest: Guest
 }
+const avatars = [Ciyo, Gumiho, Kuma, Kyo, Spike]
 
 const SectionPesan: React.FC<SectionPesanProps> = ({ guest }) => {
   const [name, setName] = useState('')
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState<Message[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
-
-  // Avatar options
-  const avatars = [Ciyo, Gumiho, Kuma, Kyo, Spike]
 
   // Get random avatar
   const getRandomAvatar = () => {
@@ -51,7 +49,11 @@ const SectionPesan: React.FC<SectionPesanProps> = ({ guest }) => {
       const response = await fetch('/api/messages')
       if (response.ok) {
         const data = await response.json()
-        setMessages(data)
+        const messagesWithAvatars = data.map((msg: Message) => ({
+          ...msg,
+          avatar: avatars[Math.floor(Math.random() * avatars.length)],
+        }))
+        setMessages(messagesWithAvatars)
       }
     } catch (error) {
       console.error('Error fetching messages:', error)
@@ -80,14 +82,14 @@ const SectionPesan: React.FC<SectionPesanProps> = ({ guest }) => {
         name: name.trim() || guest.nama,
       })
 
-      const newMessage = await response
+      const newMessage = await { ...response, avatar: getRandomAvatar() }
 
       // Add new message to the list
       setMessages((prev) => [newMessage, ...prev])
 
       // Reset form
       setMessage('')
-      setName(guest.nama)
+      setName('')
       toast.success('Pesan berhasil dikirim!')
     } catch (error) {
       toast.error('Gagal mengirim pesan. Silakan coba lagi.')
@@ -143,7 +145,7 @@ const SectionPesan: React.FC<SectionPesanProps> = ({ guest }) => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Nama Kamu..."
-                  className="h-9 w-[65%] rounded-lg border-1 border-[#558384] bg-[#E9CBA6]/50 text-sm focus-within:outline-none focus:border-0 focus:ring-0 focus:outline-none focus-visible:outline-0 max-[400px]:h-7 max-[400px]:text-[10px]"
+                  className="h-9 w-[65%] rounded-lg border-1 border-[#558384] bg-[#E9CBA6]/50 text-sm focus-within:outline-none  focus:ring-0 focus:outline-none focus-visible:outline-0 max-[400px]:h-7 max-[400px]:text-[10px]"
                   required
                 />
                 <Textarea
@@ -214,7 +216,7 @@ const SectionPesan: React.FC<SectionPesanProps> = ({ guest }) => {
                           <div className="flex-shrink-0">
                             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#CF935F]/10 p-1">
                               <Image
-                                src={getRandomAvatar()}
+                                src={msg.avatar ?? Ciyo}
                                 alt={`${msg.name} avatar`}
                                 width={24}
                                 height={24}

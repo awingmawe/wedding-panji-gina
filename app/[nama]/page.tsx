@@ -100,7 +100,7 @@ const Page: FC<PageProps> = async ({ params }) => {
     <main className="container min-h-[100dvh] overflow-x-hidden">
       <SectionMusic />
 
-      <SectionHome name={nama} />
+      <SectionHome name={guest.nama} />
 
       <SectionPengantin />
 

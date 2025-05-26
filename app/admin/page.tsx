@@ -140,9 +140,9 @@ export default function AdminDashboard() {
       </h1>
 
       {/* Main Stats Cards */}
-      <div className="mb-6 grid grid-cols-2 gap-6">
+      <div className="mb-6 grid grid-cols-2 gap-3">
         <Card className="col-span-1">
-          <CardHeader className="pb-2">
+          <CardHeader>
             <CardTitle className="text-center text-sm font-medium text-[#606161]">
               RSVP yang masuk
             </CardTitle>
@@ -155,7 +155,7 @@ export default function AdminDashboard() {
         </Card>
 
         <Card className="col-span-1">
-          <CardHeader className="pb-2">
+          <CardHeader>
             <CardTitle className="text-center text-sm font-medium text-[#606161]">
               Pesan dan Kesan
             </CardTitle>
@@ -168,7 +168,7 @@ export default function AdminDashboard() {
         </Card>
 
         <Card className="col-span-2">
-          <CardHeader className="pb-2">
+          <CardHeader>
             <CardTitle className="text-center text-sm font-medium text-[#606161]">
               Total Tamu (Jumlah Keseluruhan)
             </CardTitle>
@@ -197,7 +197,7 @@ export default function AdminDashboard() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="guests" className="mt-6">
+        <TabsContent value="guests" className="mt-3">
           <Card>
             <CardHeader>
               <CardTitle>Daftar Tamu</CardTitle>
@@ -217,7 +217,7 @@ export default function AdminDashboard() {
             </CardHeader>
             <CardContent className="p-0">
               <div
-                className="h-[400px] overflow-y-auto px-6 pb-6"
+                className="h-[270px] overflow-y-auto px-6 pb-6"
                 onScroll={
                   !isSearchActive ? guestsScroll.handleScroll : undefined
                 }
@@ -226,8 +226,8 @@ export default function AdminDashboard() {
                   <div className="py-8 text-center">
                     <p className="text-gray-500">
                       {searchTerm
-                        ? 'No guests found matching your search.'
-                        : 'No guests available.'}
+                        ? 'Tamu yang dicari tidak ditemukan.'
+                        : 'Belum ada tamu yang ditambahkan.'}
                     </p>
                   </div>
                 ) : (
@@ -293,7 +293,7 @@ export default function AdminDashboard() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="attendances" className="mt-6">
+        <TabsContent value="attendances" className="mt-3">
           <Card>
             <CardHeader>
               <CardTitle>RSVP Responden</CardTitle>
@@ -330,17 +330,13 @@ export default function AdminDashboard() {
                 </TabsList>
 
                 {/* All Attendances */}
-                <TabsContent value="all" className="mt-4">
+                <TabsContent value="all">
                   <div
-                    className="h-[360px] overflow-y-auto"
+                    className="h-[240px] overflow-y-auto"
                     onScroll={attendancesScroll.handleScroll}
                   >
                     {attendances.length === 0 ? (
-                      <div className="py-8 text-center">
-                        <p className="text-gray-500">
-                          Belum ada RSVP responden.
-                        </p>
-                      </div>
+                      <p className="text-gray-500">Belum ada RSVP responden.</p>
                     ) : (
                       <div className="space-y-2">
                         {attendances.map((attendance) => (
@@ -384,8 +380,8 @@ export default function AdminDashboard() {
                 </TabsContent>
 
                 {/* Akad Only */}
-                <TabsContent value="akad" className="mt-4">
-                  <div className="h-[360px] overflow-y-auto">
+                <TabsContent value="akad">
+                  <div className="h-[240px] overflow-y-auto">
                     {attendances.filter((a) => a.konfirmasi === 'Akad')
                       .length === 0 ? (
                       <div className="py-8 text-center">
@@ -422,8 +418,8 @@ export default function AdminDashboard() {
                 </TabsContent>
 
                 {/* Resepsi Only */}
-                <TabsContent value="resepsi" className="mt-4">
-                  <div className="h-[360px] overflow-y-auto">
+                <TabsContent value="resepsi">
+                  <div className="h-[240px] overflow-y-auto">
                     {attendances.filter((a) => a.konfirmasi === 'Resepsi')
                       .length === 0 ? (
                       <div className="py-8 text-center">
@@ -460,8 +456,8 @@ export default function AdminDashboard() {
                 </TabsContent>
 
                 {/* Akad & Resepsi */}
-                <TabsContent value="akad-resepsi" className="mt-4">
-                  <div className="h-[360px] overflow-y-auto">
+                <TabsContent value="akad-resepsi">
+                  <div className="h-[240px] overflow-y-auto">
                     {attendances.filter(
                       (a) => a.konfirmasi === 'Akad dan Resepsi'
                     ).length === 0 ? (
@@ -501,8 +497,8 @@ export default function AdminDashboard() {
                 </TabsContent>
 
                 {/* Tidak Hadir */}
-                <TabsContent value="tidak-hadir" className="mt-4">
-                  <div className="h-[360px] overflow-y-auto">
+                <TabsContent value="tidak-hadir">
+                  <div className="h-[240px] overflow-y-auto">
                     {attendances.filter(
                       (a) => a.konfirmasi === 'Maaf, Saya belum bisa hadir'
                     ).length === 0 ? (
@@ -548,14 +544,14 @@ export default function AdminDashboard() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="messages" className="mt-6">
+        <TabsContent value="messages" className="mt-3">
           <Card>
             <CardHeader>
               <CardTitle>Pesan Undangan</CardTitle>
             </CardHeader>
             <CardContent className="p-0">
               <div
-                className="h-[400px] overflow-y-auto px-6 pb-6"
+                className="h-[270px] overflow-y-auto px-6 pb-6"
                 onScroll={messagesScroll.handleScroll}
               >
                 {messages.length === 0 ? (
