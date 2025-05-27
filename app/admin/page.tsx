@@ -2,15 +2,25 @@
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
+  updateGuest,
   useAttendancesPaginated,
   useAttendanceStats,
   useGuests,
   useGuestsPaginated,
   useMessagesPaginated,
 } from '@/hooks/useApi'
+import { Guest } from '@/types'
 import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 
@@ -40,9 +50,123 @@ function useInfiniteScroll(
   return { handleScroll }
 }
 
+// Edit Guest Modal Component
+function EditGuestModal({
+  guest,
+  onGuestUpdated,
+  trigger,
+}: {
+  guest: Guest
+  onGuestUpdated: () => void
+  trigger: React.ReactNode
+}) {
+  const [open, setOpen] = useState(false)
+  const [nama, setNama] = useState(guest.nama)
+  const [nickname, setNickname] = useState(guest.nickname)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // Reset form when guest changes
+  useEffect(() => {
+    setNama(guest.nama)
+    setNickname(guest.nickname)
+  }, [guest])
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!nama.trim() || !nickname.trim()) {
+      toast.error('Nama dan nickname tidak boleh kosong')
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      await updateGuest(guest.id, {
+        nama: nama.trim(),
+        nickname: nickname.trim(),
+      })
+
+      toast.success('Tamu berhasil diperbarui!')
+      setOpen(false)
+      onGuestUpdated() // Refresh the list
+    } catch (error) {
+      toast.error('Gagal memperbarui tamu')
+      console.error('Error updating guest:', error)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Edit Tamu</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="nama">Nama</Label>
+            <Input
+              id="nama"
+              value={nama}
+              onChange={(e) => {
+                setNama(e.target.value)
+                setNickname(
+                  e.target.value
+                    ? nama
+                        .toLowerCase()
+                        .trim()
+                        .replace(/ +/g, ' ') // Replace multiple spaces with a single space
+                        .replace(/ /g, '-') // Replace spaces with dashes
+                        .replace(/[^a-z0-9-]/g, '') // Remove non-alphanumeric characters except dash
+                        .replace(/--+/g, '-') // Replace multiple dashes with a single dash
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                    : ''
+                )
+              }}
+              placeholder="Masukkan nama tamu"
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="nickname">Nickname</Label>
+            <Input
+              id="nickname"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+              placeholder="Masukkan nickname (untuk URL)"
+              required
+              disabled
+            />
+            <p className="text-xs text-gray-500">
+              URL akan menjadi: {window.location.origin}/{nickname}
+            </p>
+          </div>
+          <div className="flex justify-end gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setOpen(false)}
+              disabled={isSubmitting}
+            >
+              Batal
+            </Button>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Menyimpan...' : 'Simpan'}
+            </Button>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 export default function AdminDashboard() {
   // Use regular hook for stats (non-paginated)
-  const { data: allGuests } = useGuests()
+  const { data: allGuests, refetch: refetchAllGuests } = useGuests()
   const { data: attendanceStats } = useAttendanceStats()
 
   // Use paginated hooks for the lists
@@ -52,6 +176,7 @@ export default function AdminDashboard() {
     loadingMore: guestsLoadingMore,
     hasMore: guestsHasMore,
     loadMore: loadMoreGuests,
+    refetch: refetchGuests,
   } = useGuestsPaginated(50)
 
   const {
@@ -89,6 +214,12 @@ export default function AdminDashboard() {
 
   // Determine if we should show pagination controls
   const isSearchActive = searchTerm.trim() !== ''
+
+  // Function to refresh guest data after updates
+  const handleGuestUpdated = () => {
+    refetchAllGuests()
+    refetchGuests()
+  }
 
   // Infinite scroll hooks
   const guestsScroll = useInfiniteScroll(
@@ -134,7 +265,7 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="container mx-auto h-[100dvh] px-4 py-4">
+    <div className="container mx-auto h-full px-4 py-4">
       <h1 className="mb-8 text-3xl font-bold text-[#8b6c5c]">
         Wedding Admin Dashboard
       </h1>
@@ -215,9 +346,9 @@ export default function AdminDashboard() {
                 )}
               </div>
             </CardHeader>
-            <CardContent className="p-0">
+            <CardContent className="mt-2 p-0">
               <div
-                className="h-[270px] overflow-y-auto px-6 pb-6"
+                className="h-[270px] overflow-y-auto pr-3 pb-6 pl-6"
                 onScroll={
                   !isSearchActive ? guestsScroll.handleScroll : undefined
                 }
@@ -235,13 +366,29 @@ export default function AdminDashboard() {
                     {filteredGuests.map((guest) => (
                       <div
                         key={guest.id}
-                        className="flex items-center justify-between rounded-lg border p-3"
+                        className="flex flex-col items-center justify-between rounded-lg border p-3"
                       >
-                        <h4 className="font-medium">{guest.nama}</h4>
-                        <div className="flex gap-2">
+                        <div className="flex w-full items-center justify-between gap-4">
+                          <h4 className="font-medium">{guest.nama}</h4>
+                          {/* EDIT BUTTON ADDED HERE */}
+                          <EditGuestModal
+                            guest={guest}
+                            onGuestUpdated={handleGuestUpdated}
+                            trigger={
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="cursor-pointer"
+                              >
+                                Edit
+                              </Button>
+                            }
+                          />
+                        </div>
+                        <div className="mt-2 flex w-full gap-2">
                           <Button
                             variant="outline"
-                            className="cursor-pointer"
+                            className="flex-1 cursor-pointer"
                             size="sm"
                             onClick={() =>
                               window.open(
@@ -255,10 +402,10 @@ export default function AdminDashboard() {
                           <Button
                             variant="outline"
                             size="sm"
-                            className="cursor-pointer"
+                            className="flex-1 cursor-pointer"
                             onClick={() => {
                               navigator.clipboard.writeText(
-                                `Assalamu'alaikum Wr. Wb.\n\nDengan penuh rasa syukur, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada acara pernikahan kami:\n\nGina & Panji\n\nMerupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir pada hari bahagia kami.\n\nBerikut kami lampirkan undangan digitalnya:\n\nLink Undangan: ${window.location.origin}/${guest.nickname}\n\nAtas kehadiran dan doa restunya, kami ucapkan terima kasih.\n\nWassalamu'alaikum Wr. Wb.\nSalam hangat,\nGina & Panji`
+                                `Assalamu'alaikum Wr. Wb.\n\nDengan penuh rasa syukur, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada acara pernikahan kami:\n\nGina & Panji\n\nMerupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir pada hari bahagia kami.\n\nBerikut kami lampirkan undangan digitalnya:\n\n🔗Link Undangan: ${window.location.origin}/${guest.nickname}\n\n✨ Mohon kesediaannya untuk mengisi konfirmasi kehadiran (RSVP) yang tersedia di dalam undangan digital tersebut, agar kami dapat mempersiapkan segala sesuatunya dengan lebih baik.\n\nAtas kehadiran dan doa restunya, kami ucapkan terima kasih.\n\nWassalamu'alaikum Wr. Wb.\nSalam hangat,\nGina & Panji`
                               )
                               toast.success('Link berhasil disalin!')
                             }}
@@ -336,7 +483,9 @@ export default function AdminDashboard() {
                     onScroll={attendancesScroll.handleScroll}
                   >
                     {attendances.length === 0 ? (
-                      <p className="text-gray-500">Belum ada RSVP responden.</p>
+                      <p className="py-8 text-center text-gray-500">
+                        Belum ada RSVP responden.
+                      </p>
                     ) : (
                       <div className="space-y-2">
                         {attendances.map((attendance) => (
@@ -378,6 +527,9 @@ export default function AdminDashboard() {
                     )}
                   </div>
                 </TabsContent>
+
+                {/* Other tabs content remains the same... */}
+                {/* I'll skip the repeated code for brevity, but include all the other tabs */}
 
                 {/* Akad Only */}
                 <TabsContent value="akad">
@@ -551,7 +703,7 @@ export default function AdminDashboard() {
             </CardHeader>
             <CardContent className="p-0">
               <div
-                className="h-[270px] overflow-y-auto px-6 pb-6"
+                className="h-[300px] overflow-y-auto px-6 pb-6"
                 onScroll={messagesScroll.handleScroll}
               >
                 {messages.length === 0 ? (

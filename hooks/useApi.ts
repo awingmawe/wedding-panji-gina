@@ -196,3 +196,39 @@ export async function createMessage(data: {
 
   return response.json()
 }
+
+// ADD THIS NEW FUNCTION
+export async function updateGuest(
+  id: number,
+  data: {
+    nama: string
+    nickname: string
+  }
+) {
+  const response = await fetch(`/api/guest/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to update guest')
+  }
+
+  return response.json()
+}
+
+// OPTIONALLY ADD DELETE FUNCTION TOO
+export async function deleteGuest(id: number) {
+  const response = await fetch(`/api/guest/${id}`, {
+    method: 'DELETE',
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to delete guest')
+  }
+
+  return response.json()
+}
