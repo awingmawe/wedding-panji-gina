@@ -39,11 +39,6 @@ const SectionPesan: React.FC<SectionPesanProps> = ({ guest }) => {
     fetchMessages()
   }, [])
 
-  useEffect(() => {
-    const interval = setInterval(fetchMessages, 5000)
-    return () => clearInterval(interval)
-  }, [])
-
   const fetchMessages = async () => {
     try {
       const response = await fetch('/api/messages')

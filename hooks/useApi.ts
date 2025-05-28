@@ -155,6 +155,10 @@ export function useMessagesPaginated(pageSize: number = 20) {
   return useApiWithPagination<Message>('/api/messages', pageSize)
 }
 
+export function useLastIndex() {
+  return useApi<number>('/api/guest/last-index')
+}
+
 // API action functions
 export async function createAttendance(data: {
   guestId: number
@@ -231,4 +235,43 @@ export async function deleteGuest(id: number) {
   }
 
   return response.json()
+}
+
+// Update your createGuest function in hooks/useApi.ts
+
+export async function createGuest(data: {
+  nama: string
+  nickname: string
+  id: number
+}) {
+  try {
+    const response = await fetch('/api/guest', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+
+    // Get the response text to see the actual error
+    const responseText = await response.text()
+
+    if (!response.ok) {
+      console.error('Server response:', responseText)
+
+      // Try to parse as JSON for more details
+      try {
+        const errorData = JSON.parse(responseText)
+        throw new Error(errorData.error || `Server error: ${response.status}`)
+      } catch {
+        throw new Error(`Server error (${response.status}): ${responseText}`)
+      }
+    }
+
+    // Parse successful response
+    return JSON.parse(responseText)
+  } catch (error) {
+    console.error('Create guest error:', error)
+    throw error
+  }
 }

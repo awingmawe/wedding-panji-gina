@@ -1,26 +1,41 @@
 'use client'
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/drawer'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
+  createGuest,
+  deleteGuest,
   updateGuest,
   useAttendancesPaginated,
   useAttendanceStats,
   useGuests,
   useGuestsPaginated,
+  useLastIndex,
   useMessagesPaginated,
 } from '@/hooks/useApi'
 import { Guest } from '@/types'
+import { PlusIcon, TrashIcon } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 
@@ -48,6 +63,174 @@ function useInfiniteScroll(
   }, [isFetching, hasMore, loading, loadMore])
 
   return { handleScroll }
+}
+
+function DeleteGuestModal({
+  guest,
+  onGuestDeleted,
+  trigger,
+}: {
+  guest: Guest
+  onGuestDeleted: () => void
+  trigger: React.ReactNode
+}) {
+  const [isDeleting, setIsDeleting] = useState(false)
+
+  const handleDelete = async () => {
+    setIsDeleting(true)
+
+    try {
+      await deleteGuest(guest.id)
+      toast.success('Tamu berhasil dihapus!')
+      onGuestDeleted() // Refresh the list
+    } catch (error) {
+      toast.error('Gagal menghapus tamu')
+      console.error('Error deleting guest:', error)
+    } finally {
+      setIsDeleting(false)
+    }
+  }
+
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Hapus Tamu</AlertDialogTitle>
+          <AlertDialogDescription>
+            Apakah Anda yakin ingin menghapus <strong>{guest.nama}</strong>?
+            Tindakan ini tidak dapat dibatalkan dan akan menghapus semua data
+            terkait termasuk RSVP dan pesan dari tamu ini.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel disabled={isDeleting}>Batal</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDelete} disabled={isDeleting}>
+            {isDeleting ? 'Menghapus...' : 'Hapus'}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
+
+// Add Guest Modal Component
+function AddGuestModal({
+  onGuestAdded,
+  trigger,
+  id,
+}: {
+  onGuestAdded: () => void
+  trigger: React.ReactNode
+  id: number
+}) {
+  const [open, setOpen] = useState(false)
+  const [nama, setNama] = useState('')
+  const [nickname, setNickname] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // Reset form when modal closes
+  useEffect(() => {
+    if (!open) {
+      setNama('')
+      setNickname('')
+    }
+  }, [open])
+
+  // Auto-generate nickname from nama
+  const generateNickname = (nama: string) => {
+    return nama
+      .toLowerCase()
+      .trim()
+      .replace(/ +/g, ' ') // Replace multiple spaces with a single space
+      .replace(/ /g, '-') // Replace spaces with dashes
+      .replace(/[^a-z0-9-]/g, '') // Remove non-alphanumeric characters except dash
+      .replace(/--+/g, '-') // Replace multiple dashes with a single dash
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!nama.trim() || !nickname.trim()) {
+      toast.error('Nama dan nickname tidak boleh kosong')
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      await createGuest({
+        nama: nama.trim(),
+        nickname: nickname.trim(),
+        id,
+      })
+
+      toast.success('Tamu berhasil ditambahkan!')
+      setOpen(false)
+      onGuestAdded() // Refresh the list
+    } catch (error) {
+      toast.error('Gagal menambahkan tamu')
+      console.error('Error creating guest:', error)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  return (
+    <Drawer open={open} onOpenChange={setOpen}>
+      <DrawerTrigger asChild>{trigger}</DrawerTrigger>
+      <DrawerContent className="mx-auto sm:max-w-[425px] ">
+        <DrawerHeader>
+          <DrawerTitle>Tambah Tamu Baru</DrawerTitle>
+        </DrawerHeader>
+        <form onSubmit={handleSubmit} className="space-y-4 px-6 pb-6">
+          <div className="space-y-2">
+            <Label htmlFor="add-nama">Nama</Label>
+            <Input
+              id="add-nama"
+              value={nama}
+              onChange={(e) => {
+                setNama(e.target.value)
+                setNickname(generateNickname(e.target.value))
+              }}
+              placeholder="Masukkan nama tamu"
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="add-nickname">Nickname</Label>
+            <Input
+              id="add-nickname"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+              placeholder="Nickname akan otomatis ke generate dari nama"
+              required
+              disabled
+            />
+            <p className="text-xs text-gray-500">
+              URL akan menjadi: {window.location.origin}/
+              {nickname || 'nickname'}
+            </p>
+          </div>
+          <div className="flex justify-end gap-2 pt-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setOpen(false)}
+              disabled={isSubmitting}
+            >
+              Batal
+            </Button>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Menambahkan...' : 'Tambah Tamu'}
+            </Button>
+          </div>
+        </form>
+      </DrawerContent>
+    </Drawer>
+  )
 }
 
 // Edit Guest Modal Component
@@ -99,23 +282,24 @@ function EditGuestModal({
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Edit Tamu</DialogTitle>
-        </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
+    <Drawer open={open} onOpenChange={setOpen}>
+      <DrawerTrigger asChild>{trigger}</DrawerTrigger>
+      <DrawerContent className="mx-auto sm:max-w-[425px]">
+        <DrawerHeader>
+          <DrawerTitle>Edit Tamu</DrawerTitle>
+        </DrawerHeader>
+        <form onSubmit={handleSubmit} className="space-y-4 px-6 pb-6">
           <div className="space-y-2">
-            <Label htmlFor="nama">Nama</Label>
+            <Label htmlFor="edit-nama">Nama</Label>
             <Input
-              id="nama"
+              id="edit-nama"
               value={nama}
               onChange={(e) => {
-                setNama(e.target.value)
+                const newValue = e.target.value
+                setNama(newValue)
                 setNickname(
-                  e.target.value
-                    ? nama
+                  newValue
+                    ? newValue
                         .toLowerCase()
                         .trim()
                         .replace(/ +/g, ' ') // Replace multiple spaces with a single space
@@ -132,20 +316,20 @@ function EditGuestModal({
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="nickname">Nickname</Label>
+            <Label htmlFor="edit-nickname">Nickname</Label>
             <Input
-              id="nickname"
+              id="edit-nickname"
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
               placeholder="Masukkan nickname (untuk URL)"
-              required
               disabled
+              required
             />
             <p className="text-xs text-gray-500">
               URL akan menjadi: {window.location.origin}/{nickname}
             </p>
           </div>
-          <div className="flex justify-end gap-2">
+          <div className="flex justify-end gap-2 pt-4">
             <Button
               type="button"
               variant="outline"
@@ -159,14 +343,16 @@ function EditGuestModal({
             </Button>
           </div>
         </form>
-      </DialogContent>
-    </Dialog>
+      </DrawerContent>
+    </Drawer>
   )
 }
 
 export default function AdminDashboard() {
   // Use regular hook for stats (non-paginated)
   const { data: allGuests, refetch: refetchAllGuests } = useGuests()
+  const { data: lastId } = useLastIndex()
+
   const { data: attendanceStats } = useAttendanceStats()
 
   // Use paginated hooks for the lists
@@ -221,6 +407,18 @@ export default function AdminDashboard() {
     refetchGuests()
   }
 
+  // Function to refresh guest data after adding
+  const handleGuestAdded = () => {
+    refetchAllGuests()
+    refetchGuests()
+  }
+
+  // Function to refresh guest data after deleting
+  const handleGuestDeleted = () => {
+    refetchAllGuests()
+    refetchGuests()
+  }
+
   // Infinite scroll hooks
   const guestsScroll = useInfiniteScroll(
     guestsLoadingMore,
@@ -265,7 +463,7 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="container mx-auto h-full px-4 py-4">
+    <div className="relative container mx-auto h-full max-w-md px-4 py-4">
       <h1 className="mb-8 text-3xl font-bold text-[#8b6c5c]">
         Wedding Admin Dashboard
       </h1>
@@ -280,7 +478,7 @@ export default function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-center text-2xl font-bold text-[#CF935F]">
-              {basicStats.totalAttendances}
+              {attendanceStats?.totalResponses}
             </div>
           </CardContent>
         </Card>
@@ -321,7 +519,7 @@ export default function AdminDashboard() {
             Tamu ({allGuests?.length})
           </TabsTrigger>
           <TabsTrigger value="attendances" className="cursor-pointer">
-            RSVP ({attendances.length})
+            RSVP ({attendanceStats?.totalResponses})
           </TabsTrigger>
           <TabsTrigger value="messages" className="cursor-pointer">
             Pesan ({messages.length})
@@ -331,7 +529,20 @@ export default function AdminDashboard() {
         <TabsContent value="guests" className="mt-3">
           <Card>
             <CardHeader>
-              <CardTitle>Daftar Tamu</CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="py-3">Daftar Tamu</CardTitle>
+                {/* ADD GUEST BUTTON */}
+                <AddGuestModal
+                  id={(lastId ?? 0) + 1}
+                  onGuestAdded={handleGuestAdded}
+                  trigger={
+                    <Button size="sm" className="flex items-center gap-2">
+                      <PlusIcon className="h-4 w-4" />
+                      Tambah Tamu
+                    </Button>
+                  }
+                />
+              </div>
               <div className="flex items-center gap-2">
                 <Input
                   placeholder="Cari Tamu..."
@@ -370,20 +581,35 @@ export default function AdminDashboard() {
                       >
                         <div className="flex w-full items-center justify-between gap-4">
                           <h4 className="font-medium">{guest.nama}</h4>
-                          {/* EDIT BUTTON ADDED HERE */}
-                          <EditGuestModal
-                            guest={guest}
-                            onGuestUpdated={handleGuestUpdated}
-                            trigger={
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                className="cursor-pointer"
-                              >
-                                Edit
-                              </Button>
-                            }
-                          />
+                          {/* EDIT BUTTON */}
+                          <div className="flex items-center gap-2">
+                            <EditGuestModal
+                              guest={guest}
+                              onGuestUpdated={handleGuestUpdated}
+                              trigger={
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="cursor-pointer"
+                                >
+                                  Edit
+                                </Button>
+                              }
+                            />
+                            <DeleteGuestModal
+                              guest={guest}
+                              onGuestDeleted={handleGuestDeleted}
+                              trigger={
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="cursor-pointer text-red-600 hover:bg-red-50 hover:text-red-700"
+                                >
+                                  <TrashIcon className="h-4 w-4" />
+                                </Button>
+                              }
+                            />
+                          </div>
                         </div>
                         <div className="mt-2 flex w-full gap-2">
                           <Button
@@ -443,7 +669,7 @@ export default function AdminDashboard() {
         <TabsContent value="attendances" className="mt-3">
           <Card>
             <CardHeader>
-              <CardTitle>RSVP Responden</CardTitle>
+              <CardTitle className="py-3">RSVP Responden</CardTitle>
             </CardHeader>
             <CardContent>
               <Tabs defaultValue="all" className="h-fit w-full">
@@ -488,9 +714,9 @@ export default function AdminDashboard() {
                       </p>
                     ) : (
                       <div className="space-y-2">
-                        {attendances.map((attendance) => (
+                        {attendances.map((attendance, idx) => (
                           <div
-                            key={attendance.id}
+                            key={`daftar-tamu-${idx}-${attendance.guest?.nickname}`}
                             className="flex items-center justify-between rounded-lg border p-3"
                           >
                             <div>
@@ -528,12 +754,12 @@ export default function AdminDashboard() {
                   </div>
                 </TabsContent>
 
-                {/* Other tabs content remains the same... */}
-                {/* I'll skip the repeated code for brevity, but include all the other tabs */}
-
                 {/* Akad Only */}
                 <TabsContent value="akad">
-                  <div className="h-[240px] overflow-y-auto">
+                  <div
+                    className="h-[240px] overflow-y-auto"
+                    onScroll={attendancesScroll.handleScroll}
+                  >
                     {attendances.filter((a) => a.konfirmasi === 'Akad')
                       .length === 0 ? (
                       <div className="py-8 text-center">
@@ -543,9 +769,9 @@ export default function AdminDashboard() {
                       <div className="space-y-2">
                         {attendances
                           .filter((a) => a.konfirmasi === 'Akad')
-                          .map((attendance) => (
+                          .map((attendance, idx) => (
                             <div
-                              key={attendance.id}
+                              key={`daftar-tamu-${idx}-${attendance.guest?.nickname}`}
                               className="flex items-center justify-between rounded-lg border border-blue-200 bg-blue-50 p-3"
                             >
                               <div>
@@ -571,7 +797,10 @@ export default function AdminDashboard() {
 
                 {/* Resepsi Only */}
                 <TabsContent value="resepsi">
-                  <div className="h-[240px] overflow-y-auto">
+                  <div
+                    className="h-[240px] overflow-y-auto"
+                    onScroll={attendancesScroll.handleScroll}
+                  >
                     {attendances.filter((a) => a.konfirmasi === 'Resepsi')
                       .length === 0 ? (
                       <div className="py-8 text-center">
@@ -581,9 +810,9 @@ export default function AdminDashboard() {
                       <div className="space-y-2">
                         {attendances
                           .filter((a) => a.konfirmasi === 'Resepsi')
-                          .map((attendance) => (
+                          .map((attendance, idx) => (
                             <div
-                              key={attendance.id}
+                              key={`daftar-tamu-${idx}-${attendance.guest?.nickname}`}
                               className="flex items-center justify-between rounded-lg border border-green-200 bg-green-50 p-3"
                             >
                               <div>
@@ -609,7 +838,10 @@ export default function AdminDashboard() {
 
                 {/* Akad & Resepsi */}
                 <TabsContent value="akad-resepsi">
-                  <div className="h-[240px] overflow-y-auto">
+                  <div
+                    className="h-[240px] overflow-y-auto"
+                    onScroll={attendancesScroll.handleScroll}
+                  >
                     {attendances.filter(
                       (a) => a.konfirmasi === 'Akad dan Resepsi'
                     ).length === 0 ? (
@@ -622,9 +854,9 @@ export default function AdminDashboard() {
                       <div className="space-y-2">
                         {attendances
                           .filter((a) => a.konfirmasi === 'Akad dan Resepsi')
-                          .map((attendance) => (
+                          .map((attendance, idx) => (
                             <div
-                              key={attendance.id}
+                              key={`daftar-tamu-${idx}-${attendance.guest?.nickname}`}
                               className="flex items-center justify-between rounded-lg border border-orange-200 bg-orange-50 p-3"
                             >
                               <div>
@@ -650,11 +882,14 @@ export default function AdminDashboard() {
 
                 {/* Tidak Hadir */}
                 <TabsContent value="tidak-hadir">
-                  <div className="h-[240px] overflow-y-auto">
+                  <div
+                    className="h-[240px] overflow-y-auto"
+                    onScroll={attendancesScroll.handleScroll}
+                  >
                     {attendances.filter(
                       (a) => a.konfirmasi === 'Maaf, Saya belum bisa hadir'
                     ).length === 0 ? (
-                      <div className="py-8 text-center">
+                      <div className="py-4 text-center">
                         <p className="text-gray-500">
                           Belum ada yang tidak hadir.
                         </p>
@@ -666,9 +901,9 @@ export default function AdminDashboard() {
                             (a) =>
                               a.konfirmasi === 'Maaf, Saya belum bisa hadir'
                           )
-                          .map((attendance) => (
+                          .map((attendance, idx) => (
                             <div
-                              key={attendance.id}
+                              key={`daftar-tamu-${idx}-${attendance.guest?.nickname}`}
                               className="flex items-center justify-between rounded-lg border border-red-200 bg-red-50 p-3"
                             >
                               <div>
@@ -699,7 +934,7 @@ export default function AdminDashboard() {
         <TabsContent value="messages" className="mt-3">
           <Card>
             <CardHeader>
-              <CardTitle>Pesan Undangan</CardTitle>
+              <CardTitle className="py-3">Pesan Undangan</CardTitle>
             </CardHeader>
             <CardContent className="p-0">
               <div

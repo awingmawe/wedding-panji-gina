@@ -69,7 +69,7 @@ const SectionKonfirmasi: React.FC<SectionKonfirmasiProps> = ({ guest }) => {
               : attendance === 'akad-dan-resepsi'
                 ? 'Akad dan Resepsi'
                 : 'Maaf, Saya belum bisa hadir',
-        jumlahTamu: parseInt(guestCount),
+        jumlahTamu: attendance === 'cannot-attend' ? 0 : parseInt(guestCount),
       })
 
       toast.success('Konfirmasi berhasil dikirim!')
