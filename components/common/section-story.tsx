@@ -111,7 +111,7 @@ const SectionStory: React.FC = () => {
     },
   }
 
-  const slideUpVariants = {
+  const slideUpVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
