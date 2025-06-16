@@ -154,7 +154,6 @@ export default function SectionHome({ name }: { name: string }) {
             <motion.p
               className="text-center font-[minecraft] text-xs text-nowrap text-[#8a826c] uppercase"
               variants={textScrollVariants}
-              animate="animate"
               whileInView={{ opacity: [1, 0, 1] }}
               transition={{
                 opacity: {
