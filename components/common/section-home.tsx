@@ -3,18 +3,18 @@
 import BgSectionHome from '@/components/assets/images/section-awal/bg-section-1-cropped.png'
 import BgSectionBottomCropped from '@/components/assets/images/section-awal/bg-section-bottom-cropped.png'
 import Key from '@/components/assets/images/section-awal/key.png'
-import { motion } from 'framer-motion'
+import { motion, Variants } from 'framer-motion'
 import Image from 'next/image'
 
 export default function SectionHome() {
   // Variants for the scrolling text only (keeping this animation)
-  const textScrollVariants = {
+  const textScrollVariants: Variants = {
     animate: {
       x: ['-100%', '100%'],
       transition: {
         x: {
           repeat: Infinity,
-          repeatType: 'loop',
+          repeatType: 'loop' as const,
           duration: 6,
           ease: 'linear',
         },
