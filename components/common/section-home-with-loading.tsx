@@ -7,7 +7,7 @@ import BgSectionBottomCropped from '@/components/assets/images/section-awal/bg-s
 import Key from '@/components/assets/images/section-awal/key.png'
 import CardOpenWedding from '@/components/common/card-open-wedding'
 import { useInvitation } from '@/components/context/provider'
-import { motion } from 'framer-motion'
+import { motion, Variants } from 'framer-motion'
 import Image from 'next/image'
 import React, { useEffect } from 'react'
 
@@ -46,13 +46,13 @@ export default function SectionHome({ name }: { name: string }) {
   }, [])
 
   // Variants for the text scrolling
-  const textScrollVariants = {
+  const textScrollVariants: Variants = {
     animate: {
       x: ['-100%', '100%'],
       transition: {
         x: {
           repeat: Infinity,
-          repeatType: 'loop',
+          repeatType: 'loop' as const,
           duration: 6,
           ease: 'linear',
         },
@@ -154,6 +154,7 @@ export default function SectionHome({ name }: { name: string }) {
             <motion.p
               className="text-center font-[minecraft] text-xs text-nowrap text-[#8a826c] uppercase"
               variants={textScrollVariants}
+              animate="animate"
               whileInView={{ opacity: [1, 0, 1] }}
               transition={{
                 opacity: {
