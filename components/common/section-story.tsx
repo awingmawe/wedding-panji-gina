@@ -8,7 +8,7 @@ import {
   type CarouselApi,
 } from '@/components/ui/carousel'
 import { cn } from '@/lib/utils'
-import { motion } from 'framer-motion'
+import { motion, Variants } from 'framer-motion'
 import Image, { StaticImageData } from 'next/image'
 import React, { useEffect, useState } from 'react'
 
@@ -100,7 +100,7 @@ const SectionStory: React.FC = () => {
   }, [api])
 
   // Animation variants
-  const fadeInVariants = {
+  const fadeInVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
